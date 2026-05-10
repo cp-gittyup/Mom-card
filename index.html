@@ -234,8 +234,12 @@
   .actor.cheer .arm-l { animation: cheerArmL 600ms ease-in-out infinite alternate; }
   .actor.cheer .body-rig { animation: cheerJump 700ms cubic-bezier(.4,0,.5,1) infinite; }
   .actor.cheer .head { animation: cheerHead 700ms ease-in-out infinite; }
+  .actor.cheer .leg-r { animation: cheerLegR 700ms ease-in-out infinite; }
+  .actor.cheer .leg-l { animation: cheerLegL 700ms ease-in-out infinite; }
   @keyframes cheerArmR { 0%{transform:rotate(-170deg);} 100%{transform:rotate(-140deg);} }
   @keyframes cheerArmL { 0%{transform:rotate(170deg);}  100%{transform:rotate(140deg);} }
+  @keyframes cheerLegR { 0%,100%{transform:rotate(0);} 50%{transform:rotate(-14deg);} }
+  @keyframes cheerLegL { 0%,100%{transform:rotate(0);} 50%{transform:rotate(14deg);} }
   @keyframes cheerJump {
     0%   { transform: translateY(0)  scaleY(.92) scaleX(1.06); }
     25%  { transform: translateY(-6px) scaleY(1.08) scaleX(.95); }
@@ -797,20 +801,10 @@ function headFor(kid) {
   // Each head includes face, eyes, blush, mouth, hair
   if (kid === 'margot') return `
     <g class="head" transform="translate(100 50)">
-      <!-- voluminous back hair extending well past shoulders -->
-      <path d="M-52 -10 Q-72 40 -66 90 Q-50 102 -44 86 Q-46 60 -42 30 Z" fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1"/>
-      <path d="M52 -10 Q72 40 66 90 Q50 102 44 86 Q46 60 42 30 Z" fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1"/>
-      <!-- bouncy curl details cascading down -->
-      <path d="M-66 70 q-10 14 -2 28 q14 -2 16 -16 q-4 -8 -14 -12 z" fill="#e7be63"/>
-      <path d="M-58 92 q-6 12 4 22 q12 -4 12 -16 q-6 -8 -16 -6 z" fill="#f7dd97"/>
-      <path d="M-48 100 q-2 12 10 18 q10 -4 8 -16 q-8 -6 -18 -2 z" fill="#e7be63"/>
-      <path d="M66 70 q10 14 2 28 q-14 -2 -16 -16 q4 -8 14 -12 z" fill="#e7be63"/>
-      <path d="M58 92 q6 12 -4 22 q-12 -4 -12 -16 q6 -8 16 -6 z" fill="#f7dd97"/>
-      <path d="M48 100 q2 12 -10 18 q-10 -4 -8 -16 q8 -6 18 -2 z" fill="#e7be63"/>
-      <!-- inner curl highlights -->
-      <path d="M-58 80 q-3 8 4 14" stroke="#f9e5a8" stroke-width="2" fill="none" opacity=".7"/>
-      <path d="M58 80 q3 8 -4 14" stroke="#f9e5a8" stroke-width="2" fill="none" opacity=".7"/>
-      <!-- face — slight heart shape -->
+      <!-- back hair: cap-shaped, ends at jaw — no pigtails into the body -->
+      <path d="M-44 -18 Q-58 14 -50 44 Q-30 50 -10 48 Q10 50 30 48 Q50 50 50 22 Q56 -2 36 -28 Q0 -42 -36 -28 Q-46 -14 -44 -18 Z"
+            fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1.4"/>
+      <!-- face -->
       <ellipse cx="0" cy="2" rx="36" ry="42" fill="url(#g-skin)" stroke="#2a2730" stroke-width="2.5"/>
       <!-- center-parted wavy bangs sweeping to both sides -->
       <path d="M-36 -22 Q-22 -44 -2 -38 L0 -22 Q-12 -16 -22 -18 Q-32 -14 -36 -22 Z"
@@ -820,9 +814,12 @@ function headFor(kid) {
       <!-- subtle wave detail on bangs -->
       <path d="M-30 -28 Q-18 -32 -6 -28" stroke="#c8973f" stroke-width="1.4" fill="none" opacity=".6"/>
       <path d="M30 -28 Q18 -32 6 -28" stroke="#c8973f" stroke-width="1.4" fill="none" opacity=".6"/>
-      <!-- side curls framing face -->
-      <path d="M-38 -6 Q-54 22 -50 50 Q-42 38 -36 18 Z" fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1"/>
-      <path d="M38 -6 Q54 22 50 50 Q42 38 36 18 Z" fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1"/>
+      <!-- side wisps framing face, ending at chin -->
+      <path d="M-40 -2 Q-50 22 -44 42 Q-38 32 -34 14 Z" fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1"/>
+      <path d="M40 -2 Q50 22 44 42 Q38 32 34 14 Z" fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1"/>
+      <!-- two soft curl tips at jaw, suggesting wave -->
+      <path d="M-44 38 q-4 10 6 14 q6 -2 6 -10 q-4 -6 -12 -4 z" fill="#e7be63"/>
+      <path d="M44 38 q4 10 -6 14 q-6 -2 -6 -10 q4 -6 12 -4 z" fill="#e7be63"/>
       <!-- eyebrows -->
       <path d="M-22 -10 Q-14 -14 -6 -10" stroke="#7e5a30" stroke-width="2.5" fill="none" stroke-linecap="round"/>
       <path d="M22 -10 Q14 -14 6 -10"   stroke="#7e5a30" stroke-width="2.5" fill="none" stroke-linecap="round"/>
@@ -1960,9 +1957,6 @@ function renderFinal() {
   margot.style.width = '18%'; luca.style.width = '15%'; sonny.style.width = '13%';
   stage.append(margot, luca, sonny);
   margot.setPose('cheer'); luca.setPose('cheer'); sonny.setPose('cheer');
-
-  // slow camera push-in for the finale
-  stage.classList.add('cam-pushin');
 
   // bubble sequence + voice clips
   const bubbles = el('div', { class: 'bubbles' });
