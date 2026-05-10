@@ -188,13 +188,11 @@
   .actor.running .mouth-closed { display: none; }
   .actor.running .mouth-open   { display: inline; }
 
-  /* camera moves on stage */
-  .stage.cam-zoom-goal   > svg.bg, .stage.cam-zoom-goal > .actor, .stage.cam-zoom-goal .ball, .stage.cam-zoom-goal .ball-shadow { animation: camZoomGoal 700ms ease-out forwards; }
-  .stage.cam-pushin      > svg.bg, .stage.cam-pushin > .actor { animation: camPushin 3500ms ease-out forwards; }
-  .stage.cam-shake       { animation: camShake 320ms ease-in-out 2; }
-  @keyframes camZoomGoal { 0%{transform:scale(1) translateX(0);} 100%{transform:scale(1.18) translateX(8%);} }
-  @keyframes camPushin   { 0%{transform:scale(1);} 100%{transform:scale(1.06);} }
-  @keyframes camShake    { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
+  /* camera moves — push-in scales children, shake bumps the stage itself */
+  .stage.cam-pushin > svg.bg, .stage.cam-pushin > .actor { animation: camPushin 3500ms ease-out forwards; }
+  .stage.cam-shake { animation: camShake 320ms ease-in-out 2; }
+  @keyframes camPushin { 0%{transform:scale(1);} 100%{transform:scale(1.06);} }
+  @keyframes camShake  { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
 
   /* impact flash overlay */
   .impact-flash {
@@ -1275,6 +1273,7 @@ async function playSoccer() {
   // SHOOT: Margot or receiver winds up and SHOOTS toward goal
   const shooter = (choice2 === 1) ? margot : receiver;
   const shooterLeg = shooter.querySelector('.leg-r');
+  shooter.flashFace('effort', 600);
   shooterLeg.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-65deg)' }], { duration: 320, fill: 'forwards', easing: 'ease-out' });
   await delay(320);
   Audio.kick();
@@ -1285,6 +1284,16 @@ async function playSoccer() {
   const sFromX = parseFloat(shooter.style.left) + 2;
   await arcBall(stage, ball, ballShadow, sFromX, goalX, 600, 30);
   Audio.net();
+  // surprise reactions + camera shake on impact
+  margot.flashFace('surprise', 500);
+  luca.flashFace('surprise', 500);
+  sonny.flashFace('surprise', 500);
+  stage.classList.add('cam-shake');
+  setTimeout(() => stage.classList.remove('cam-shake'), 700);
+  // impact flash overlay
+  const impact = el('div', { class: 'impact-flash' });
+  stage.appendChild(impact);
+  setTimeout(() => impact.remove(), 400);
   // brief net ripple — flash goal area
   const flash = el('div'); Object.assign(flash.style, { position:'absolute', left:'5%', top:'58%', width:'18%', height:'18%', background:'rgba(255,255,255,0.4)', borderRadius:'10px' });
   stage.appendChild(flash);
@@ -1302,6 +1311,9 @@ async function playSoccer() {
     sonny.moveTo('42%',  { duration: 900 }),
   ]);
   margot.setPose('cheer'); luca.setPose('cheer'); sonny.setPose('cheer');
+  // camera push-in for the celebration moment
+  stage.classList.add('cam-pushin');
+  setTimeout(() => stage.classList.remove('cam-pushin'), 3500);
   speech(stage, 'GOOOAL!', '24%', '8%', 'big');
   ball.remove(); ballShadow.remove();
   await delay(1400);
@@ -1799,6 +1811,7 @@ async function playIce() {
   if (choice2 === 0) {
     // SLAPSHOT: big wind-up — stick rotates back
     speech(stage, 'WIND UP!', '24%', '18%', 'small');
+    luca.flashFace('effort', 900);
     stick.style.transition = 'transform 600ms ease-out';
     stick.style.transform = 'rotate(-95deg)';
     luca.querySelector('.arm-r').animate([{transform:'rotate(-10deg)'},{transform:'rotate(-110deg)'}], {duration:600, fill:'forwards'});
@@ -1814,6 +1827,7 @@ async function playIce() {
   } else {
     // wrist shot: small wind, quick snap
     speech(stage, 'snap!', '30%', '20%', 'small');
+    luca.flashFace('effort', 500);
     stick.style.transition = 'transform 250ms ease-out';
     stick.style.transform = 'rotate(-30deg)';
     await delay(280);
@@ -1826,6 +1840,15 @@ async function playIce() {
   // puck flies low and fast to the goal
   await arcPuck(stage, puck, puckShadow, 41, 86, choice2 === 0 ? 420 : 320, choice2 === 0 ? 18 : 8);
   Audio.net();
+  // surprise faces + camera shake + impact flash on goal
+  margot.flashFace('surprise', 500);
+  luca.flashFace('surprise', 500);
+  sonny.flashFace('surprise', 500);
+  stage.classList.add('cam-shake');
+  setTimeout(() => stage.classList.remove('cam-shake'), 700);
+  const impact = el('div', { class: 'impact-flash' });
+  stage.appendChild(impact);
+  setTimeout(() => impact.remove(), 400);
   // flash net
   const flash = el('div'); Object.assign(flash.style, { position:'absolute', left:'82%', bottom:'18%', width:'16%', height:'40%', background:'rgba(255,255,255,0.55)', borderRadius:'10px' });
   stage.appendChild(flash);
@@ -1938,6 +1961,9 @@ function renderFinal() {
   stage.append(margot, luca, sonny);
   margot.setPose('cheer'); luca.setPose('cheer'); sonny.setPose('cheer');
 
+  // slow camera push-in for the finale
+  stage.classList.add('cam-pushin');
+
   // bubble sequence + voice clips
   const bubbles = el('div', { class: 'bubbles' });
   stage.appendChild(bubbles);
@@ -1968,6 +1994,9 @@ function renderFinal() {
     b.style.animation = 'pop-center 360ms cubic-bezier(.18,1.3,.5,1) forwards';
     bubbles.appendChild(b);
     Audio.airhorn();
+    // little camera shake when the big bubble lands
+    stage.classList.add('cam-shake');
+    setTimeout(() => stage.classList.remove('cam-shake'), 700);
   }, 2200);
 
   // inject pop-center keyframes once
