@@ -10,34 +10,27 @@
     --ink: #2a2730;
     --pink: #ff6b9a;
     --pink-deep: #e3477a;
-    --sky: #c9ecff;
-    --grass: #7fc46b;
-    --grass-dark: #5aa849;
-    --mat: #f1d6b0;
-    --ice: #e6f4fb;
-    --ice-line: #b9d8e8;
-    --skin: #fddcc4;
-    --skin-shade: #f4c2a4;
-    --hair-margot: #f1cf6b;
-    --hair-margot-dark: #d3ad48;
-    --hair-luca: #b8884a;
-    --hair-luca-dark: #8c632f;
-    --hair-sonny: #a07a52;
-    --hair-sonny-dark: #7c5b39;
-    --eye: #2c6fb0;
+    --sky-1: #b9e3ff;
+    --sky-2: #eaf6ff;
+    --grass-1: #7dc66a;
+    --grass-2: #5aa849;
+    --skin: #fbd0b1;
+    --skin-shade: #e8a884;
+    --skin-light: #ffe6d4;
     --red: #e23b3b;
+    --red-dark: #a92020;
     --orange: #ff8a2a;
+    --orange-dark: #c25c00;
     --yellow: #ffd23a;
+    --yellow-dark: #c89400;
   }
   * { box-sizing: border-box; }
   html, body {
-    margin: 0;
-    padding: 0;
-    background: var(--cream);
-    color: var(--ink);
+    margin: 0; padding: 0;
+    background: var(--cream); color: var(--ink);
     font-family: "Marker Felt", "Comic Sans MS", "Chalkboard SE", "Bradley Hand", cursive, system-ui, sans-serif;
-    min-height: 100%;
-    overscroll-behavior: none;
+    min-height: 100%; overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     background:
@@ -45,64 +38,41 @@
       radial-gradient(circle at 80% 90%, #ffeac2 0, transparent 40%),
       var(--cream);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: flex; flex-direction: column; align-items: center;
     padding: 12px;
   }
-  #app {
-    width: 100%;
-    max-width: 820px;
-  }
+  #app { width: 100%; max-width: 860px; }
+
   .card {
     background: #fffdfa;
     border: 4px solid var(--ink);
     border-radius: 28px;
     box-shadow: 0 12px 0 rgba(42,39,48,0.12), 0 24px 60px rgba(42,39,48,0.18);
-    overflow: hidden;
-    position: relative;
+    overflow: hidden; position: relative;
   }
   .stage {
-    position: relative;
-    width: 100%;
+    position: relative; width: 100%;
     aspect-ratio: 4 / 3;
-    background: var(--sky);
-    overflow: hidden;
+    background: var(--sky-2); overflow: hidden;
   }
-  .stage svg.bg, .stage svg.scene {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
+  .stage > svg.bg {
+    position: absolute; inset: 0; width: 100%; height: 100%; display: block;
   }
   .panel {
-    padding: 18px 18px 22px;
+    padding: 16px 18px 22px;
     background: #fffdfa;
     border-top: 4px solid var(--ink);
   }
   .dialogue {
-    font-size: 22px;
-    line-height: 1.25;
-    text-align: center;
-    margin: 4px 0 14px;
-    min-height: 1.4em;
+    font-size: 22px; line-height: 1.25;
+    text-align: center; margin: 4px 0 14px; min-height: 1.4em;
   }
-  .choices {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-  }
+  .choices { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
   button.choice, button.big {
-    appearance: none;
-    border: 3px solid var(--ink);
-    background: var(--pink);
-    color: #fff;
-    font-family: inherit;
-    font-size: 22px;
-    padding: 14px 22px;
-    border-radius: 999px;
+    appearance: none; border: 3px solid var(--ink);
+    background: var(--pink); color: #fff;
+    font-family: inherit; font-size: 22px;
+    padding: 14px 22px; border-radius: 999px;
     cursor: pointer;
     box-shadow: 0 5px 0 var(--pink-deep);
     transition: transform 80ms ease, box-shadow 80ms ease;
@@ -110,90 +80,62 @@
   }
   button.choice:hover, button.big:hover { transform: translateY(-1px); }
   button.choice:active, button.big:active {
-    transform: translateY(3px);
-    box-shadow: 0 2px 0 var(--pink-deep);
+    transform: translateY(3px); box-shadow: 0 2px 0 var(--pink-deep);
   }
   button.choice.alt {
-    background: #ffd23a;
-    color: var(--ink);
-    box-shadow: 0 5px 0 #d9a800;
+    background: var(--yellow); color: var(--ink);
+    box-shadow: 0 5px 0 var(--yellow-dark);
   }
-  button.choice.alt:active { box-shadow: 0 2px 0 #d9a800; }
+  button.choice.alt:active { box-shadow: 0 2px 0 var(--yellow-dark); }
+  button.choice:disabled { opacity: .5; cursor: not-allowed; }
 
   /* ---------- Intro ---------- */
-  .intro {
-    text-align: center;
-    padding: 28px 22px 32px;
-  }
+  .intro { text-align: center; padding: 28px 22px 32px; }
   .intro h1 {
     font-size: clamp(34px, 6vw, 54px);
-    margin: 6px 0 4px;
-    color: var(--pink-deep);
-    text-shadow: 3px 3px 0 #ffd23a;
+    margin: 6px 0 4px; color: var(--pink-deep);
+    text-shadow: 3px 3px 0 var(--yellow);
   }
   .intro h2 {
     font-size: clamp(20px, 3vw, 26px);
-    margin: 0 0 18px;
-    color: var(--ink);
-    font-weight: normal;
+    margin: 0 0 18px; color: var(--ink); font-weight: normal;
   }
   .intro .picker {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 14px;
-    margin-top: 14px;
+    gap: 14px; margin-top: 14px;
   }
   .pick {
-    border: 3px solid var(--ink);
-    border-radius: 22px;
-    padding: 14px 10px 16px;
-    background: #fffdfa;
-    cursor: pointer;
-    box-shadow: 0 5px 0 rgba(42,39,48,0.18);
+    border: 3px solid var(--ink); border-radius: 22px;
+    padding: 14px 10px 16px; background: #fffdfa;
+    cursor: pointer; box-shadow: 0 5px 0 rgba(42,39,48,0.18);
     transition: transform 80ms ease, box-shadow 80ms ease, background 120ms ease;
-    font-family: inherit;
-    color: var(--ink);
+    font-family: inherit; color: var(--ink);
   }
   .pick:hover { background: #fff3df; }
-  .pick:active {
-    transform: translateY(3px);
-    box-shadow: 0 2px 0 rgba(42,39,48,0.18);
-  }
+  .pick:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(42,39,48,0.18); }
   .pick svg { width: 100%; height: 110px; display: block; }
   .pick .label { font-size: 22px; margin-top: 6px; }
 
-  /* ---------- Speech bubbles ---------- */
-  .bubbles {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
+  /* ---------- Bubbles ---------- */
+  .bubbles { position: absolute; inset: 0; pointer-events: none; }
   .bubble {
-    position: absolute;
-    background: #fff;
-    border: 3px solid var(--ink);
-    border-radius: 22px;
-    padding: 10px 14px;
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--pink-deep);
-    transform: scale(0);
+    position: absolute; background: #fff;
+    border: 3px solid var(--ink); border-radius: 22px;
+    padding: 8px 14px; font-size: 24px; font-weight: bold;
+    color: var(--pink-deep); transform: scale(0);
     transform-origin: bottom center;
     animation: pop 360ms cubic-bezier(.18,1.3,.5,1) forwards;
     box-shadow: 0 4px 0 rgba(42,39,48,0.15);
     white-space: nowrap;
   }
-  .bubble.big { font-size: 34px; color: var(--ink); }
-  .bubble.small { font-size: 20px; }
+  .bubble.big { font-size: 32px; color: var(--ink); }
+  .bubble.small { font-size: 18px; }
   .bubble::after {
-    content: "";
-    position: absolute;
-    bottom: -14px;
-    left: 24px;
-    width: 18px; height: 18px;
-    background: #fff;
-    border-right: 3px solid var(--ink);
-    border-bottom: 3px solid var(--ink);
+    content: ""; position: absolute;
+    bottom: -12px; left: 22px;
+    width: 16px; height: 16px; background: #fff;
+    border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink);
     transform: rotate(45deg);
   }
   @keyframes pop {
@@ -202,15 +144,14 @@
     100% { transform: scale(1) translateY(0); }
   }
 
-  /* ---------- Confetti / hearts ---------- */
+  /* ---------- FX ---------- */
   .fx { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
   .heart, .conf {
-    position: absolute;
-    bottom: -40px;
+    position: absolute; bottom: -40px;
     will-change: transform, opacity;
     animation: float 3.6s linear infinite;
   }
-  .heart { font-size: 26px; }
+  .heart { font-size: 28px; }
   .conf { width: 10px; height: 14px; border-radius: 2px; }
   @keyframes float {
     0%   { transform: translateY(0) rotate(0); opacity: 0; }
@@ -218,648 +159,1236 @@
     100% { transform: translateY(-110vh) rotate(720deg); opacity: 0; }
   }
 
-  /* ---------- Character poses (CSS) ---------- */
-  .char {
-    position: absolute;
-    width: 26%;
-    bottom: 8%;
+  /* ---------- Characters ---------- */
+  .actor {
+    position: absolute; bottom: 0;
     transform-origin: 50% 100%;
+    transition: left .4s cubic-bezier(.4,0,.2,1), bottom .4s cubic-bezier(.4,0,.2,1);
   }
-  .char svg { width: 100%; height: auto; display: block; overflow: visible; }
-  .char.bob { animation: bob 1.6s ease-in-out infinite; }
-  .char.run { animation: run 700ms ease-in-out infinite; }
-  .char.spin { animation: spin 2.4s linear infinite; }
-  .char.tumble { animation: tumble 1.2s ease-in-out infinite; }
-  .char.wobble { animation: wobble 1.4s ease-in-out infinite; }
-  .char.cheer { animation: cheer 900ms ease-in-out infinite; }
-  .char.fall  { animation: fall 1.6s ease-in-out infinite; }
-  @keyframes bob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
-  @keyframes run { 0%,100%{transform:translateY(0) rotate(-2deg);} 50%{transform:translateY(-8px) rotate(2deg);} }
-  @keyframes spin { 0%{transform:rotate(0);} 100%{transform:rotate(360deg);} }
-  @keyframes tumble { 0%{transform:rotate(0);} 50%{transform:rotate(180deg) translateX(-10px);} 100%{transform:rotate(360deg);} }
-  @keyframes wobble { 0%,100%{transform:rotate(-6deg);} 50%{transform:rotate(6deg);} }
-  @keyframes cheer { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-14px);} }
-  @keyframes fall { 0%,80%{transform:rotate(0) translateY(0);} 90%{transform:rotate(20deg) translateY(8px);} 100%{transform:rotate(0) translateY(0);} }
+  .actor svg { display: block; width: 100%; height: auto; overflow: visible; }
 
-  /* ---------- Ball / puck ---------- */
+  /* idle bob */
+  .actor.idle .body-rig { animation: bob 2s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-4px);} }
+
+  /* run cycle */
+  .actor.running .body-rig { animation: runBob 380ms ease-in-out infinite; }
+  .actor.running .leg-r { animation: legR 760ms ease-in-out infinite; transform-origin: 50% 0; }
+  .actor.running .leg-l { animation: legL 760ms ease-in-out infinite; transform-origin: 50% 0; }
+  .actor.running .arm-r { animation: armR 760ms ease-in-out infinite; transform-origin: 50% 0; }
+  .actor.running .arm-l { animation: armL 760ms ease-in-out infinite; transform-origin: 50% 0; }
+  @keyframes runBob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-3px);} }
+  @keyframes legR { 0%,100%{transform:rotate(28deg);} 50%{transform:rotate(-28deg);} }
+  @keyframes legL { 0%,100%{transform:rotate(-28deg);} 50%{transform:rotate(28deg);} }
+  @keyframes armR { 0%,100%{transform:rotate(-30deg);} 50%{transform:rotate(30deg);} }
+  @keyframes armL { 0%,100%{transform:rotate(30deg);} 50%{transform:rotate(-30deg);} }
+
+  /* cheer */
+  .actor.cheer .arm-r { transform: rotate(-150deg); transform-origin: 50% 0; animation: cheerArmR 700ms ease-in-out infinite alternate; }
+  .actor.cheer .arm-l { transform: rotate(150deg); transform-origin: 50% 0; animation: cheerArmL 700ms ease-in-out infinite alternate; }
+  .actor.cheer .body-rig { animation: jump 700ms ease-in-out infinite; }
+  @keyframes cheerArmR { 0%{transform:rotate(-160deg);} 100%{transform:rotate(-130deg);} }
+  @keyframes cheerArmL { 0%{transform:rotate(160deg);}  100%{transform:rotate(130deg);} }
+  @keyframes jump { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+
+  /* wobble (for Sonny on ice etc.) */
+  .actor.wobble { animation: wobble 1.2s ease-in-out infinite; }
+  @keyframes wobble { 0%,100%{transform:rotate(-5deg);} 50%{transform:rotate(5deg);} }
+
+  /* spin (figure skater) */
+  .actor.spin .body-rig { animation: spinBody 1.6s linear infinite; transform-origin: 50% 60%; }
+  @keyframes spinBody { 0%{transform:scaleX(1);} 25%{transform:scaleX(.2);} 50%{transform:scaleX(-1);} 75%{transform:scaleX(-.2);} 100%{transform:scaleX(1);} }
+
+  /* hockey wind-up (manually triggered with .windup class) */
+  .actor.windup .arm-r { animation: hockeyWindup 1.4s ease-in-out forwards; transform-origin: 50% 0; }
+  .actor.windup .arm-l { animation: hockeyWindupL 1.4s ease-in-out forwards; transform-origin: 50% 0; }
+  @keyframes hockeyWindup { 0%{transform:rotate(-10deg);} 50%{transform:rotate(-110deg);} 70%{transform:rotate(-110deg);} 100%{transform:rotate(60deg);} }
+  @keyframes hockeyWindupL { 0%{transform:rotate(10deg);} 50%{transform:rotate(-50deg);} 100%{transform:rotate(40deg);} }
+
+  /* ball/puck */
   .ball, .puck {
-    position: absolute;
-    bottom: 16%;
-    width: 6%;
-    aspect-ratio: 1/1;
+    position: absolute; pointer-events: none;
+    will-change: transform, left, top;
+    transition: none;
   }
-  .ball { background: radial-gradient(circle at 35% 35%, #fff 0 30%, #ddd 31% 60%, #999 61% 100%); border-radius: 50%; border: 2px solid #222; animation: roll 1.4s linear infinite; }
-  .puck { background: #1a1a1a; border-radius: 40%; border: 2px solid #000; animation: slide 1.2s ease-in-out infinite; }
-  @keyframes roll { 0%{transform:translateX(-30vw) rotate(0);} 100%{transform:translateX(30vw) rotate(720deg);} }
-  @keyframes slide { 0%{transform:translateX(0);} 50%{transform:translateX(28vw);} 100%{transform:translateX(0);} }
+  .ball { width: 5%; aspect-ratio: 1; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff 0 28%, #e0e0e0 30% 60%, #888 62% 100%);
+    border: 2px solid #1a1a1a; box-shadow: 0 6px 0 rgba(0,0,0,0.08);
+  }
+  .ball::before {
+    content: ""; position: absolute; inset: 18%;
+    background:
+      radial-gradient(circle, #1a1a1a 26%, transparent 27%) 0 0/40% 40%,
+      radial-gradient(circle, #1a1a1a 26%, transparent 27%) 50% 50%/40% 40%;
+  }
+  .puck { width: 4%; aspect-ratio: 1.6/1; border-radius: 50%;
+    background: linear-gradient(180deg, #2c2c2c 0%, #000 100%);
+    border: 2px solid #000;
+  }
+  .ball-shadow, .puck-shadow {
+    position: absolute; pointer-events: none;
+    width: 5%; height: 1.2%; border-radius: 50%;
+    background: rgba(0,0,0,0.25); filter: blur(2px);
+  }
 
-  /* ---------- Final ---------- */
-  .final h2 {
-    font-size: clamp(28px, 5vw, 40px);
-    color: var(--pink-deep);
-    text-align: center;
-    margin: 4px 0 14px;
-    text-shadow: 3px 3px 0 #ffd23a;
+  /* speed lines */
+  .speedline {
+    position: absolute; height: 3px; background: rgba(255,255,255,0.85);
+    border-radius: 3px; pointer-events: none;
+    animation: speedfade .5s ease-out forwards;
   }
-  .final .row { display:flex; justify-content:center; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
-  .footer-note {
-    text-align:center;
-    font-size: 14px;
-    margin-top: 14px;
-    color: rgba(42,39,48,0.6);
-  }
+  @keyframes speedfade { 0%{opacity:1;transform:scaleX(1);} 100%{opacity:0;transform:scaleX(.3);} }
+
   .home-btn {
-    position: absolute;
-    top: 10px; left: 10px;
-    background: #fffdfa;
-    border: 2px solid var(--ink);
-    border-radius: 14px;
-    padding: 6px 12px;
-    font-family: inherit;
-    font-size: 16px;
-    cursor: pointer;
-    z-index: 5;
+    position: absolute; top: 10px; left: 10px;
+    background: #fffdfa; border: 2px solid var(--ink);
+    border-radius: 14px; padding: 6px 12px;
+    font-family: inherit; font-size: 16px;
+    cursor: pointer; z-index: 5;
     box-shadow: 0 3px 0 rgba(42,39,48,0.2);
   }
   .home-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(42,39,48,0.2); }
+
+  .audio-toggle {
+    position: absolute; top: 10px; right: 10px;
+    background: #fffdfa; border: 2px solid var(--ink);
+    border-radius: 999px; width: 38px; height: 38px;
+    cursor: pointer; z-index: 5;
+    box-shadow: 0 3px 0 rgba(42,39,48,0.2);
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .audio-toggle:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(42,39,48,0.2); }
+
+  .final h2 {
+    font-size: clamp(28px, 5vw, 40px);
+    color: var(--pink-deep); text-align: center;
+    margin: 4px 0 14px; text-shadow: 3px 3px 0 var(--yellow);
+  }
+  .final .row { display: flex; justify-content: center; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
+
+  .footer-note {
+    text-align: center; font-size: 14px; margin-top: 14px;
+    color: rgba(42,39,48,0.6);
+  }
 </style>
 </head>
 <body>
 <div id="app"></div>
 
-<!-- ===== Reusable SVG character defs ===== -->
+<!-- Inline character SVG factory uses these gradient defs -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <!-- Margot: tall, long wavy blonde, blue eyes. accent currentColor -->
-    <symbol id="kid-margot" viewBox="0 0 100 180">
-      <!-- legs -->
-      <rect x="38" y="120" width="10" height="44" rx="5" fill="#3a4a8a"/>
-      <rect x="52" y="120" width="10" height="44" rx="5" fill="#3a4a8a"/>
-      <!-- shoes -->
-      <ellipse cx="43" cy="168" rx="9" ry="5" fill="#222"/>
-      <ellipse cx="57" cy="168" rx="9" ry="5" fill="#222"/>
-      <!-- body / shirt (accent color) -->
-      <path d="M30 78 Q50 70 70 78 L72 124 Q50 132 28 124 Z" fill="currentColor" stroke="#2a2730" stroke-width="2.5"/>
-      <!-- arms -->
-      <path d="M30 84 Q18 100 22 122" fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="round"/>
-      <path d="M70 84 Q82 100 78 122" fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="round"/>
-      <circle cx="22" cy="124" r="6" fill="#fddcc4" stroke="#2a2730" stroke-width="2"/>
-      <circle cx="78" cy="124" r="6" fill="#fddcc4" stroke="#2a2730" stroke-width="2"/>
-      <!-- neck -->
-      <rect x="46" y="68" width="8" height="12" fill="#fddcc4"/>
-      <!-- hair back (long wavy) -->
-      <path d="M18 50 Q14 90 22 118 Q34 110 32 78 Z" fill="#f1cf6b" stroke="#d3ad48" stroke-width="2"/>
-      <path d="M82 50 Q86 90 78 118 Q66 110 68 78 Z" fill="#f1cf6b" stroke="#d3ad48" stroke-width="2"/>
-      <!-- head -->
-      <ellipse cx="50" cy="44" rx="24" ry="26" fill="#fddcc4" stroke="#2a2730" stroke-width="2.5"/>
-      <!-- hair top wavy bangs -->
-      <path d="M27 32 Q34 18 50 16 Q66 18 73 32 Q70 36 60 30 Q52 36 44 30 Q34 36 27 32 Z" fill="#f1cf6b" stroke="#d3ad48" stroke-width="2"/>
-      <!-- eyes -->
-      <circle cx="41" cy="46" r="3.2" fill="#2c6fb0"/>
-      <circle cx="59" cy="46" r="3.2" fill="#2c6fb0"/>
-      <circle cx="41.8" cy="45.2" r="1" fill="#fff"/>
-      <circle cx="59.8" cy="45.2" r="1" fill="#fff"/>
-      <!-- cheeks -->
-      <circle cx="36" cy="54" r="3" fill="#ff9bb3" opacity=".55"/>
-      <circle cx="64" cy="54" r="3" fill="#ff9bb3" opacity=".55"/>
-      <!-- smile -->
-      <path d="M43 58 Q50 64 57 58" stroke="#2a2730" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-    </symbol>
-
-    <!-- Luca: short blondish-brown boys hair, blue eyes -->
-    <symbol id="kid-luca" viewBox="0 0 100 180">
-      <rect x="38" y="118" width="10" height="42" rx="5" fill="#2a3a6a"/>
-      <rect x="52" y="118" width="10" height="42" rx="5" fill="#2a3a6a"/>
-      <ellipse cx="43" cy="164" rx="9" ry="5" fill="#222"/>
-      <ellipse cx="57" cy="164" rx="9" ry="5" fill="#222"/>
-      <path d="M30 78 Q50 70 70 78 L72 122 Q50 130 28 122 Z" fill="currentColor" stroke="#2a2730" stroke-width="2.5"/>
-      <path d="M30 84 Q18 100 22 120" fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="round"/>
-      <path d="M70 84 Q82 100 78 120" fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="round"/>
-      <circle cx="22" cy="122" r="6" fill="#fddcc4" stroke="#2a2730" stroke-width="2"/>
-      <circle cx="78" cy="122" r="6" fill="#fddcc4" stroke="#2a2730" stroke-width="2"/>
-      <rect x="46" y="68" width="8" height="12" fill="#fddcc4"/>
-      <ellipse cx="50" cy="44" rx="23" ry="25" fill="#fddcc4" stroke="#2a2730" stroke-width="2.5"/>
-      <!-- short boys hair -->
-      <path d="M27 36 Q28 22 42 18 Q50 14 58 18 Q72 22 73 36 Q70 30 60 30 Q52 26 44 30 Q34 30 27 36 Z" fill="#b8884a" stroke="#8c632f" stroke-width="2"/>
-      <path d="M27 36 Q40 32 50 32 Q60 32 73 36 L73 42 Q60 38 50 38 Q40 38 27 42 Z" fill="#b8884a"/>
-      <circle cx="41" cy="46" r="3.2" fill="#2c6fb0"/>
-      <circle cx="59" cy="46" r="3.2" fill="#2c6fb0"/>
-      <circle cx="41.8" cy="45.2" r="1" fill="#fff"/>
-      <circle cx="59.8" cy="45.2" r="1" fill="#fff"/>
-      <circle cx="36" cy="54" r="3" fill="#ff9bb3" opacity=".55"/>
-      <circle cx="64" cy="54" r="3" fill="#ff9bb3" opacity=".55"/>
-      <path d="M43 58 Q50 64 57 58" stroke="#2a2730" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-    </symbol>
-
-    <!-- Sonny: toddler proportions, big head, light brown bowl-ish hair -->
-    <symbol id="kid-sonny" viewBox="0 0 100 180">
-      <rect x="40" y="128" width="9" height="32" rx="4.5" fill="#3a4a8a"/>
-      <rect x="51" y="128" width="9" height="32" rx="4.5" fill="#3a4a8a"/>
-      <ellipse cx="44.5" cy="164" rx="8" ry="4.5" fill="#222"/>
-      <ellipse cx="55.5" cy="164" rx="8" ry="4.5" fill="#222"/>
-      <path d="M30 90 Q50 84 70 90 L72 130 Q50 138 28 130 Z" fill="currentColor" stroke="#2a2730" stroke-width="2.5"/>
-      <path d="M30 96 Q20 110 26 128" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
-      <path d="M70 96 Q80 110 74 128" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
-      <circle cx="26" cy="130" r="5.5" fill="#fddcc4" stroke="#2a2730" stroke-width="2"/>
-      <circle cx="74" cy="130" r="5.5" fill="#fddcc4" stroke="#2a2730" stroke-width="2"/>
-      <rect x="46" y="78" width="8" height="14" fill="#fddcc4"/>
-      <!-- bigger head -->
-      <ellipse cx="50" cy="46" rx="28" ry="30" fill="#fddcc4" stroke="#2a2730" stroke-width="2.5"/>
-      <!-- bowl-ish hair down to ears, over forehead -->
-      <path d="M22 38 Q24 18 50 14 Q76 18 78 38 Q78 46 70 48 Q60 36 50 36 Q40 36 30 48 Q22 46 22 38 Z" fill="#a07a52" stroke="#7c5b39" stroke-width="2"/>
-      <path d="M24 40 Q50 32 76 40 L74 50 Q50 42 26 50 Z" fill="#a07a52"/>
-      <circle cx="40" cy="50" r="3.4" fill="#2c6fb0"/>
-      <circle cx="60" cy="50" r="3.4" fill="#2c6fb0"/>
-      <circle cx="40.8" cy="49.2" r="1" fill="#fff"/>
-      <circle cx="60.8" cy="49.2" r="1" fill="#fff"/>
-      <circle cx="34" cy="58" r="3.2" fill="#ff9bb3" opacity=".6"/>
-      <circle cx="66" cy="58" r="3.2" fill="#ff9bb3" opacity=".6"/>
-      <path d="M44 64 Q50 70 56 64" stroke="#2a2730" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-    </symbol>
+    <!-- Skin gradient -->
+    <radialGradient id="g-skin" cx="40%" cy="35%" r="80%">
+      <stop offset="0%" stop-color="#ffe6d4"/>
+      <stop offset="60%" stop-color="#fbd0b1"/>
+      <stop offset="100%" stop-color="#e8a884"/>
+    </radialGradient>
+    <!-- Margot's hair: honey at root, lighter blonde at tips -->
+    <linearGradient id="g-hair-margot" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#c8973f"/>
+      <stop offset="40%" stop-color="#e7be63"/>
+      <stop offset="100%" stop-color="#f7dd97"/>
+    </linearGradient>
+    <!-- Luca's hair: golden sandy blonde -->
+    <linearGradient id="g-hair-luca" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#a47a3c"/>
+      <stop offset="60%" stop-color="#c89a5a"/>
+      <stop offset="100%" stop-color="#e0bf80"/>
+    </linearGradient>
+    <!-- Sonny's hair: light golden blonde -->
+    <linearGradient id="g-hair-sonny" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#b58c4a"/>
+      <stop offset="60%" stop-color="#dfb56a"/>
+      <stop offset="100%" stop-color="#f3d997"/>
+    </linearGradient>
+    <!-- Generic shirt highlight -->
+    <linearGradient id="g-shirt" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.45)"/>
+      <stop offset="40%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+    <linearGradient id="g-grass" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#8ed378"/>
+      <stop offset="100%" stop-color="#5aa849"/>
+    </linearGradient>
+    <linearGradient id="g-sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#a5d8ff"/>
+      <stop offset="100%" stop-color="#eaf6ff"/>
+    </linearGradient>
+    <linearGradient id="g-ice" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#d1e8f5"/>
+      <stop offset="100%" stop-color="#f5fbff"/>
+    </linearGradient>
+    <linearGradient id="g-wood" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#c9b289"/>
+      <stop offset="100%" stop-color="#a07a52"/>
+    </linearGradient>
+    <radialGradient id="g-spotlight" cx="50%" cy="20%" r="80%">
+      <stop offset="0%" stop-color="rgba(255,255,210,0.5)"/>
+      <stop offset="80%" stop-color="rgba(255,255,210,0)"/>
+    </radialGradient>
   </defs>
 </svg>
 
 <script>
-(() => {
-  const app = document.getElementById('app');
+//////////////////////////////////////////////////////////////
+// AUDIO ENGINE
+//////////////////////////////////////////////////////////////
+const Audio = (() => {
+  let ctx = null;
+  let muted = false;
+  let musicGain = null;
+  let musicNode = null;
+  let started = false;
 
-  // Heights for poses — Margot tallest, Luca middle, Sonny smallest
-  const HEIGHTS = { margot: 1.0, luca: 0.86, sonny: 0.7 };
-  const ACCENT  = { margot: 'var(--red)', luca: 'var(--orange)', sonny: 'var(--yellow)' };
-
-  // ----- helpers -----
-  function el(tag, props = {}, children = []) {
-    const n = document.createElement(tag);
-    for (const k in props) {
-      if (k === 'style' && typeof props[k] === 'object') Object.assign(n.style, props[k]);
-      else if (k === 'class') n.className = props[k];
-      else if (k.startsWith('on')) n.addEventListener(k.slice(2).toLowerCase(), props[k]);
-      else if (k === 'html') n.innerHTML = props[k];
-      else n.setAttribute(k, props[k]);
+  function ensure() {
+    if (!ctx) {
+      try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
     }
-    (Array.isArray(children) ? children : [children]).forEach(c => {
-      if (c == null) return;
-      n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    return ctx;
+  }
+
+  function unlock() {
+    const c = ensure();
+    if (c && c.state === 'suspended') c.resume();
+    started = true;
+  }
+
+  function setMuted(v) {
+    muted = v;
+    if (musicGain) musicGain.gain.setTargetAtTime(muted ? 0 : 0.18, ensure().currentTime, 0.05);
+  }
+  function isMuted() { return muted; }
+
+  // ---- SFX synth helpers ----
+  function envGain(c, t0, peak, attack, hold, release) {
+    const g = c.createGain();
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(peak, t0 + attack);
+    g.gain.linearRampToValueAtTime(peak, t0 + attack + hold);
+    g.gain.linearRampToValueAtTime(0, t0 + attack + hold + release);
+    return g;
+  }
+
+  function whistle() {
+    const c = ensure(); if (!c || muted) return;
+    const t = c.currentTime;
+    const o = c.createOscillator();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(1800, t);
+    o.frequency.linearRampToValueAtTime(2400, t + 0.18);
+    const g = envGain(c, t, 0.18, 0.01, 0.16, 0.05);
+    o.connect(g).connect(c.destination);
+    o.start(t); o.stop(t + 0.25);
+  }
+
+  function kick() {
+    // soccer kick: noise burst + low thump
+    const c = ensure(); if (!c || muted) return;
+    const t = c.currentTime;
+    const noise = c.createBufferSource();
+    const buf = c.createBuffer(1, c.sampleRate * 0.08, c.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+    noise.buffer = buf;
+    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 800;
+    const ng = envGain(c, t, 0.6, 0.005, 0.02, 0.06);
+    noise.connect(lp).connect(ng).connect(c.destination);
+    noise.start(t); noise.stop(t + 0.08);
+
+    const o = c.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(120, t);
+    o.frequency.exponentialRampToValueAtTime(40, t + 0.12);
+    const og = envGain(c, t, 0.4, 0.005, 0.04, 0.08);
+    o.connect(og).connect(c.destination);
+    o.start(t); o.stop(t + 0.15);
+  }
+
+  function trap() {
+    // softer thump
+    const c = ensure(); if (!c || muted) return;
+    const t = c.currentTime;
+    const o = c.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(180, t);
+    o.frequency.exponentialRampToValueAtTime(80, t + 0.08);
+    const g = envGain(c, t, 0.25, 0.003, 0.02, 0.06);
+    o.connect(g).connect(c.destination);
+    o.start(t); o.stop(t + 0.1);
+  }
+
+  function slap() {
+    // hockey slapshot: hard snap
+    const c = ensure(); if (!c || muted) return;
+    const t = c.currentTime;
+    const noise = c.createBufferSource();
+    const buf = c.createBuffer(1, c.sampleRate * 0.05, c.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1);
+    noise.buffer = buf;
+    const hp = c.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1500;
+    const ng = envGain(c, t, 0.55, 0.001, 0.01, 0.04);
+    noise.connect(hp).connect(ng).connect(c.destination);
+    noise.start(t); noise.stop(t + 0.06);
+    // crack
+    const o = c.createOscillator(); o.type = 'square';
+    o.frequency.setValueAtTime(600, t); o.frequency.exponentialRampToValueAtTime(120, t + 0.06);
+    const og = envGain(c, t, 0.18, 0.001, 0.01, 0.06);
+    o.connect(og).connect(c.destination);
+    o.start(t); o.stop(t + 0.08);
+  }
+
+  function net() {
+    // rope/net ripple — short noise burst with bandpass
+    const c = ensure(); if (!c || muted) return;
+    const t = c.currentTime;
+    const noise = c.createBufferSource();
+    const buf = c.createBuffer(1, c.sampleRate * 0.4, c.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+    noise.buffer = buf;
+    const bp = c.createBiquadFilter(); bp.type = 'bandpass';
+    bp.frequency.value = 2500; bp.Q.value = 1.2;
+    const ng = envGain(c, t, 0.32, 0.005, 0.05, 0.3);
+    noise.connect(bp).connect(ng).connect(c.destination);
+    noise.start(t); noise.stop(t + 0.4);
+  }
+
+  function airhorn() {
+    // goal horn
+    const c = ensure(); if (!c || muted) return;
+    const t = c.currentTime;
+    [220, 277, 330].forEach((f, i) => {
+      const o = c.createOscillator(); o.type = 'sawtooth';
+      o.frequency.setValueAtTime(f, t);
+      const g = envGain(c, t + i * 0.02, 0.18, 0.02, 0.6, 0.3);
+      o.connect(g).connect(c.destination);
+      o.start(t); o.stop(t + 1.0);
     });
-    return n;
   }
 
-  function kid(id, opts = {}) {
-    // opts: x ('20%'), bottom ('8%'), scale (number, multiplies HEIGHTS), accent (color), pose (class), flip (bool), rotate (deg)
-    const scale = (opts.scale || 1) * HEIGHTS[id];
-    const wrap = el('div', { class: 'char ' + (opts.pose || 'bob') });
-    wrap.style.width = (26 * scale) + '%';
-    wrap.style.left = opts.x ?? '0%';
-    wrap.style.bottom = opts.bottom ?? '8%';
-    wrap.style.color = opts.accent || ACCENT[id];
-    if (opts.flip || opts.rotate) {
-      wrap.style.transform = `${opts.flip ? 'scaleX(-1) ' : ''}${opts.rotate ? `rotate(${opts.rotate}deg)` : ''}`;
+  function cheer() {
+    // crowd cheer — pink-noise envelope w/ slight pitch wobble
+    const c = ensure(); if (!c || muted) return;
+    const t = c.currentTime;
+    const dur = 1.4;
+    const buf = c.createBuffer(1, c.sampleRate * dur, c.sampleRate);
+    const data = buf.getChannelData(0);
+    let b0 = 0, b1 = 0, b2 = 0;
+    for (let i = 0; i < data.length; i++) {
+      const w = (Math.random() * 2 - 1);
+      b0 = 0.99765 * b0 + w * 0.0990460;
+      b1 = 0.96300 * b1 + w * 0.2965164;
+      b2 = 0.57000 * b2 + w * 1.0526913;
+      data[i] = (b0 + b1 + b2 + w * 0.1848) * 0.18;
     }
-    wrap.innerHTML = `<svg viewBox="0 0 100 180"><use href="#kid-${id}"/></svg>`;
-    return wrap;
+    const src = c.createBufferSource(); src.buffer = buf;
+    const bp = c.createBiquadFilter(); bp.type = 'bandpass';
+    bp.frequency.setValueAtTime(900, t);
+    bp.frequency.linearRampToValueAtTime(1800, t + 0.4);
+    bp.Q.value = 0.6;
+    const g = c.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.6, t + 0.18);
+    g.gain.linearRampToValueAtTime(0.4, t + 0.7);
+    g.gain.linearRampToValueAtTime(0, t + dur);
+    src.connect(bp).connect(g).connect(c.destination);
+    src.start(t); src.stop(t + dur);
   }
 
-  function bubble(text, x, y, cls = '') {
-    const b = el('div', { class: 'bubble ' + cls }, text);
-    b.style.left = x;
-    b.style.top  = y;
+  function pop() {
+    const c = ensure(); if (!c || muted) return;
+    const t = c.currentTime;
+    const o = c.createOscillator(); o.type = 'triangle';
+    o.frequency.setValueAtTime(800, t);
+    o.frequency.exponentialRampToValueAtTime(1200, t + 0.08);
+    const g = envGain(c, t, 0.16, 0.003, 0.02, 0.06);
+    o.connect(g).connect(c.destination);
+    o.start(t); o.stop(t + 0.1);
+  }
+
+  // Background music: simple ukulele-feel arpeggio loop
+  function startMusic() {
+    const c = ensure(); if (!c || musicNode) return;
+    const tempo = 120;
+    const beat = 60 / tempo;
+    musicGain = c.createGain();
+    musicGain.gain.value = muted ? 0 : 0.18;
+    musicGain.connect(c.destination);
+
+    // Pluck-like synth: short triangle with quick decay
+    function pluck(freq, t, dur = beat * 0.45, vel = 1) {
+      const o = c.createOscillator();
+      o.type = 'triangle';
+      o.frequency.value = freq;
+      const g = c.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.22 * vel, t + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      o.connect(g).connect(musicGain);
+      o.start(t); o.stop(t + dur);
+      // soft second harmonic
+      const o2 = c.createOscillator(); o2.type = 'sine'; o2.frequency.value = freq * 2;
+      const g2 = c.createGain();
+      g2.gain.setValueAtTime(0, t);
+      g2.gain.linearRampToValueAtTime(0.07 * vel, t + 0.005);
+      g2.gain.exponentialRampToValueAtTime(0.001, t + dur * 0.7);
+      o2.connect(g2).connect(musicGain);
+      o2.start(t); o2.stop(t + dur);
+    }
+
+    // Chord progression: C major - Am - F - G (kid-friendly, warm)
+    // Each chord = 4 beats of arpeggio
+    const chords = [
+      [262, 330, 392, 523], // C
+      [220, 262, 330, 440], // Am
+      [175, 262, 349, 440], // F
+      [196, 247, 294, 392], // G
+    ];
+
+    function scheduleLoop() {
+      const start = c.currentTime + 0.05;
+      const loopDur = chords.length * 4 * beat;
+      chords.forEach((ch, ci) => {
+        const baseT = start + ci * 4 * beat;
+        // 8th-note alternating arpeggio: 0 2 1 3 0 2 1 3
+        const order = [0, 2, 1, 3, 0, 2, 1, 3];
+        order.forEach((idx, i) => {
+          const t = baseT + i * 0.5 * beat;
+          pluck(ch[idx], t, beat * 0.5, i % 2 === 0 ? 1 : 0.7);
+        });
+      });
+      musicNode = setTimeout(scheduleLoop, loopDur * 1000 - 50);
+    }
+    scheduleLoop();
+  }
+
+  function stopMusic() {
+    if (musicNode) { clearTimeout(musicNode); musicNode = null; }
+    if (musicGain) { try { musicGain.disconnect(); } catch (e) {} musicGain = null; }
+  }
+
+  // Voice clip support: returns true if played
+  const voiceCache = {};
+  function tryVoice(name) {
+    if (muted) return false;
+    if (voiceCache[name] === false) return false;
+    let a = voiceCache[name];
+    if (!a) {
+      a = new window.Audio('audio/' + name + '.mp3');
+      a.preload = 'auto';
+      a.addEventListener('error', () => { voiceCache[name] = false; });
+      voiceCache[name] = a;
+    }
+    try {
+      a.currentTime = 0;
+      const p = a.play();
+      if (p && p.then) p.catch(() => { voiceCache[name] = false; });
+      return true;
+    } catch (e) { return false; }
+  }
+
+  return {
+    unlock, setMuted, isMuted,
+    whistle, kick, trap, slap, net, airhorn, cheer, pop,
+    startMusic, stopMusic, tryVoice,
+  };
+})();
+
+// Unlock on first user gesture
+document.addEventListener('pointerdown', () => Audio.unlock(), { once: true });
+
+//////////////////////////////////////////////////////////////
+// HELPERS
+//////////////////////////////////////////////////////////////
+function el(tag, props = {}, children = []) {
+  const ns = (tag === 'svg' || tag === 'g' || tag === 'path' || tag === 'rect' || tag === 'circle' || tag === 'ellipse' || tag === 'line' || tag === 'polygon' || tag === 'text');
+  const n = ns ? document.createElementNS('http://www.w3.org/2000/svg', tag) : document.createElement(tag);
+  for (const k in props) {
+    const v = props[k];
+    if (v == null) continue;
+    if (k === 'style' && typeof v === 'object') Object.assign(n.style, v);
+    else if (k === 'class') n.setAttribute('class', v);
+    else if (k.startsWith('on')) n.addEventListener(k.slice(2).toLowerCase(), v);
+    else if (k === 'html') n.innerHTML = v;
+    else if (k === 'text') n.textContent = v;
+    else n.setAttribute(k, v);
+  }
+  (Array.isArray(children) ? children : [children]).forEach(c => {
+    if (c == null) return;
+    n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+  });
+  return n;
+}
+function svg(html) {
+  const wrap = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  wrap.innerHTML = html;
+  return wrap;
+}
+function div(cls, props = {}) { return el('div', { class: cls, ...props }); }
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+//////////////////////////////////////////////////////////////
+// CHARACTER SYSTEM (rigged SVG, animatable per-instance)
+//////////////////////////////////////////////////////////////
+// Characters are drawn at viewBox 200x300.
+// Origin: feet at y=300, body centered horizontally at x=100.
+// Rig groups (so animations can target):
+//   .body-rig (whole moving body, child of root)
+//     .leg-l, .leg-r (rotate from hip, top of group)
+//     .torso (with shirt)
+//     .arm-l, .arm-r (rotate from shoulder)
+//     .head (with hair, eyes, mouth)
+
+function colorFor(kid) {
+  return kid === 'margot' ? { primary: '#e23b3b', primaryDark: '#a82626', pants: '#d4302f' }
+       : kid === 'luca'   ? { primary: '#ff8a2a', primaryDark: '#c25c00', pants: '#3a3a6a' }
+                          : { primary: '#ffd23a', primaryDark: '#c89400', pants: '#5b6db0' };
+}
+
+function makeKid(kid, opts = {}) {
+  const c = colorFor(kid);
+  const heightScale = kid === 'margot' ? 1.0 : kid === 'luca' ? 0.86 : 0.7;
+  const bodyHeight = 280 * heightScale;
+  const bodyWidth  = 200;
+
+  const root = el('div', { class: 'actor idle ' + kid + (opts.flip ? ' flipx' : '') });
+  if (opts.flip) root.style.transform = 'scaleX(-1)';
+  root.style.width = (12 * heightScale) + '%';
+  root.style.left = opts.x ?? '40%';
+  root.style.bottom = opts.bottom ?? '6%';
+  root.style.zIndex = opts.z ?? 1;
+
+  const HEAD = headFor(kid);
+  const TORSO = torsoFor(kid, c);
+
+  const inner = `
+  <svg viewBox="0 0 200 300" preserveAspectRatio="xMidYEnd meet">
+    <g class="body-rig">
+      <!-- back leg first so front leg overlaps -->
+      <g class="leg-l" transform="translate(85 175)">
+        <rect x="-12" y="0" width="24" height="80" rx="10" fill="${c.pants}"/>
+        <rect x="-12" y="0" width="24" height="20" fill="rgba(0,0,0,0.12)"/>
+        <ellipse cx="0" cy="86" rx="16" ry="8" fill="#222"/>
+      </g>
+      <g class="leg-r" transform="translate(115 175)">
+        <rect x="-12" y="0" width="24" height="80" rx="10" fill="${c.pants}"/>
+        <rect x="-12" y="0" width="24" height="20" fill="rgba(0,0,0,0.12)"/>
+        <ellipse cx="0" cy="86" rx="16" ry="8" fill="#222"/>
+      </g>
+
+      ${TORSO}
+
+      <!-- arms, behind torso for back arm, in front for front arm -->
+      <g class="arm-l" transform="translate(70 80)">
+        <rect x="-9" y="0" width="18" height="70" rx="8" fill="${c.primary}"/>
+        <rect x="-9" y="0" width="18" height="14" fill="rgba(0,0,0,0.15)"/>
+        <circle cx="0" cy="74" r="10" fill="url(#g-skin)" stroke="#2a2730" stroke-width="2"/>
+      </g>
+      <g class="arm-r" transform="translate(130 80)">
+        <rect x="-9" y="0" width="18" height="70" rx="8" fill="${c.primary}"/>
+        <rect x="-9" y="0" width="18" height="14" fill="rgba(0,0,0,0.15)"/>
+        <circle cx="0" cy="74" r="10" fill="url(#g-skin)" stroke="#2a2730" stroke-width="2"/>
+      </g>
+
+      ${HEAD}
+    </g>
+  </svg>`;
+  root.innerHTML = inner;
+
+  // helpers attached to instance
+  root.kid = kid;
+  root.setPose = (pose) => {
+    root.classList.remove('idle','running','cheer','wobble','spin','windup');
+    root.classList.add(pose);
+  };
+  root.flip = (yes) => {
+    root.style.transform = yes ? 'scaleX(-1)' : '';
+  };
+  root.moveTo = (xPct, opts2 = {}) => {
+    if (opts2.duration != null) root.style.transition = `left ${opts2.duration}ms ${opts2.easing || 'cubic-bezier(.4,0,.2,1)'}, bottom ${opts2.duration}ms ${opts2.easing || 'cubic-bezier(.4,0,.2,1)'}`;
+    root.style.left = xPct;
+    return delay(opts2.duration ?? 400);
+  };
+  return root;
+}
+
+function torsoFor(kid, c) {
+  // graphic shirt with light highlight
+  return `
+  <g class="torso">
+    <path d="M62 80 Q100 70 138 80 L142 180 Q100 192 58 180 Z" fill="${c.primary}" stroke="#2a2730" stroke-width="2.5"/>
+    <path d="M62 80 Q100 70 138 80 L140 110 Q100 100 60 110 Z" fill="url(#g-shirt)"/>
+    <!-- collar -->
+    <path d="M86 70 Q100 86 114 70" fill="${c.primaryDark}" opacity=".7"/>
+    <!-- subtle graphic on chest -->
+    ${kid === 'margot' ? `<g opacity=".55"><path d="M82 110 Q100 100 118 110 L114 140 Q100 148 86 140 Z" fill="#fff"/><path d="M86 116 Q100 128 114 116" stroke="${c.primaryDark}" stroke-width="2" fill="none"/></g>` : ''}
+    ${kid === 'luca'   ? `<text x="100" y="138" text-anchor="middle" font-family="Impact, sans-serif" font-size="28" fill="#fff" stroke="${c.primaryDark}" stroke-width="1.5">5</text>` : ''}
+    ${kid === 'sonny'  ? `<circle cx="100" cy="130" r="13" fill="#fff" stroke="${c.primaryDark}" stroke-width="2"/>` : ''}
+  </g>`;
+}
+
+function headFor(kid) {
+  // Each head includes face, eyes, blush, mouth, hair
+  if (kid === 'margot') return `
+    <g class="head" transform="translate(100 50)">
+      <!-- back hair -->
+      <path d="M-46 -14 Q-58 30 -52 70 Q-40 56 -38 26 Z" fill="url(#g-hair-margot)"/>
+      <path d="M46 -14 Q58 30 52 70 Q40 56 38 26 Z" fill="url(#g-hair-margot)"/>
+      <!-- curls -->
+      <path d="M-52 50 q-10 18 4 26 q14 -6 8 -22 z" fill="url(#g-hair-margot)" opacity=".95"/>
+      <path d="M-46 60 q-12 20 4 28 q16 -6 8 -22 z" fill="url(#g-hair-margot)"/>
+      <path d="M52 50 q10 18 -4 26 q-14 -6 -8 -22 z" fill="url(#g-hair-margot)" opacity=".95"/>
+      <path d="M46 60 q12 20 -4 28 q-16 -6 -8 -22 z" fill="url(#g-hair-margot)"/>
+      <!-- face -->
+      <ellipse cx="0" cy="0" rx="38" ry="42" fill="url(#g-skin)" stroke="#2a2730" stroke-width="2.5"/>
+      <!-- bangs/swept fringe -->
+      <path d="M-38 -22 Q-30 -42 -4 -38 Q22 -42 38 -22 Q34 -10 16 -16 Q4 -10 -8 -18 Q-22 -10 -38 -22 Z"
+            fill="url(#g-hair-margot)" stroke="#7e5a30" stroke-width="1.5"/>
+      <!-- side curls framing face -->
+      <path d="M-40 -8 Q-52 16 -46 36 Q-38 28 -34 14 Z" fill="url(#g-hair-margot)"/>
+      <path d="M40 -8 Q52 16 46 36 Q38 28 34 14 Z" fill="url(#g-hair-margot)"/>
+      <!-- eyebrows -->
+      <path d="M-22 -10 Q-14 -14 -6 -10" stroke="#7e5a30" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M22 -10 Q14 -14 6 -10"   stroke="#7e5a30" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- eyes (almond) -->
+      <g class="eyes">
+        <ellipse cx="-14" cy="2" rx="6" ry="7" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
+        <ellipse cx="14"  cy="2" rx="6" ry="7" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
+        <circle cx="-13" cy="3" r="3.6" fill="#2c6fb0"/>
+        <circle cx="15"  cy="3" r="3.6" fill="#2c6fb0"/>
+        <circle cx="-13" cy="3" r="1.8" fill="#0d2842"/>
+        <circle cx="15"  cy="3" r="1.8" fill="#0d2842"/>
+        <circle cx="-11.6" cy="1.4" r="1.1" fill="#fff"/>
+        <circle cx="16.4"  cy="1.4" r="1.1" fill="#fff"/>
+        <!-- lashes -->
+        <path d="M-20 -3 Q-17 -6 -14 -4" stroke="#3a2410" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <path d="M20 -3 Q17 -6 14 -4"   stroke="#3a2410" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- cheeks -->
+      <ellipse cx="-22" cy="14" rx="6" ry="3.5" fill="#ff9bb3" opacity=".7"/>
+      <ellipse cx="22"  cy="14" rx="6" ry="3.5" fill="#ff9bb3" opacity=".7"/>
+      <!-- nose -->
+      <path d="M-2 4 Q0 14 4 14" stroke="#c47e58" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <!-- mouth -->
+      <path d="M-9 22 Q0 30 9 22" stroke="#a83a4a" stroke-width="2" fill="#ff7b8e" stroke-linejoin="round"/>
+      <path d="M-7 23 Q0 26 7 23" stroke="none" fill="#fff" opacity=".5"/>
+    </g>`;
+
+  if (kid === 'luca') return `
+    <g class="head" transform="translate(100 50)">
+      <!-- face -->
+      <ellipse cx="0" cy="0" rx="36" ry="40" fill="url(#g-skin)" stroke="#2a2730" stroke-width="2.5"/>
+      <!-- short boys hair: side-swept fringe, neat sides -->
+      <path d="M-34 -16 Q-38 -36 -8 -42 Q22 -44 36 -22 L36 -10 Q24 -22 8 -18 Q-6 -10 -22 -14 Q-30 -8 -34 -16 Z"
+            fill="url(#g-hair-luca)" stroke="#7c5a30" stroke-width="1.5"/>
+      <!-- swept fringe across forehead, going right -->
+      <path d="M-30 -22 Q-12 -32 18 -28 Q28 -22 30 -14 Q12 -22 -4 -16 Q-18 -22 -30 -18 Z"
+            fill="url(#g-hair-luca)" stroke="#7c5a30" stroke-width="1"/>
+      <path d="M-34 -16 Q-30 -10 -28 -2 L-34 0 Z" fill="url(#g-hair-luca)"/>
+      <path d="M36 -16 Q30 -10 28 -2 L36 0 Z" fill="url(#g-hair-luca)"/>
+      <!-- eyebrows -->
+      <path d="M-22 -10 Q-14 -14 -6 -10" stroke="#8a6432" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M22 -10 Q14 -14 6 -10"   stroke="#8a6432" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <!-- eyes -->
+      <g class="eyes">
+        <ellipse cx="-13" cy="2" rx="5.5" ry="6.5" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
+        <ellipse cx="13"  cy="2" rx="5.5" ry="6.5" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
+        <circle cx="-12" cy="3" r="3.2" fill="#2c6fb0"/>
+        <circle cx="14"  cy="3" r="3.2" fill="#2c6fb0"/>
+        <circle cx="-12" cy="3" r="1.6" fill="#0d2842"/>
+        <circle cx="14"  cy="3" r="1.6" fill="#0d2842"/>
+        <circle cx="-10.8" cy="1.6" r="1" fill="#fff"/>
+        <circle cx="15.2"  cy="1.6" r="1" fill="#fff"/>
+      </g>
+      <ellipse cx="-22" cy="14" rx="5.5" ry="3" fill="#ff9bb3" opacity=".7"/>
+      <ellipse cx="22"  cy="14" rx="5.5" ry="3" fill="#ff9bb3" opacity=".7"/>
+      <path d="M-2 4 Q0 12 4 12" stroke="#c47e58" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M-8 22 Q0 28 8 22" stroke="#a83a4a" stroke-width="2" fill="#ff7b8e"/>
+    </g>`;
+
+  // Sonny
+  return `
+    <g class="head" transform="translate(100 60)">
+      <!-- toddler bigger head -->
+      <ellipse cx="0" cy="0" rx="44" ry="48" fill="url(#g-skin)" stroke="#2a2730" stroke-width="2.5"/>
+      <!-- bowl-ish blonde hair down to ears, fringe over forehead -->
+      <path d="M-44 -12 Q-44 -42 -12 -48 Q22 -50 44 -22 Q44 -8 36 -2 Q22 -22 0 -22 Q-22 -22 -36 -2 Q-44 -8 -44 -12 Z"
+            fill="url(#g-hair-sonny)" stroke="#8a6432" stroke-width="1.2"/>
+      <!-- soft fringe wisps -->
+      <path d="M-38 -16 Q-12 -26 4 -22 Q14 -28 30 -22 Q34 -12 28 -8 Q14 -18 0 -14 Q-14 -22 -28 -14 Q-36 -12 -38 -16 Z"
+            fill="url(#g-hair-sonny)" opacity=".95"/>
+      <!-- light eyebrows -->
+      <path d="M-22 -2 Q-14 -6 -6 -2" stroke="#a87b3a" stroke-width="2" fill="none" stroke-linecap="round" opacity=".75"/>
+      <path d="M22 -2 Q14 -6 6 -2"   stroke="#a87b3a" stroke-width="2" fill="none" stroke-linecap="round" opacity=".75"/>
+      <!-- eyes -->
+      <g class="eyes">
+        <ellipse cx="-14" cy="6" rx="6.5" ry="7" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
+        <ellipse cx="14"  cy="6" rx="6.5" ry="7" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
+        <circle cx="-13" cy="7" r="4" fill="#2c6fb0"/>
+        <circle cx="15"  cy="7" r="4" fill="#2c6fb0"/>
+        <circle cx="-13" cy="7" r="2" fill="#0d2842"/>
+        <circle cx="15"  cy="7" r="2" fill="#0d2842"/>
+        <circle cx="-11.6" cy="5.4" r="1.2" fill="#fff"/>
+        <circle cx="16.4"  cy="5.4" r="1.2" fill="#fff"/>
+      </g>
+      <ellipse cx="-26" cy="22" rx="7" ry="4" fill="#ff9bb3" opacity=".75"/>
+      <ellipse cx="26"  cy="22" rx="7" ry="4" fill="#ff9bb3" opacity=".75"/>
+      <path d="M-2 12 Q0 22 4 22" stroke="#c47e58" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M-9 32 Q0 40 9 32" stroke="#a83a4a" stroke-width="2" fill="#ff7b8e"/>
+    </g>`;
+}
+
+//////////////////////////////////////////////////////////////
+// SCENE / TIMELINE PRIMITIVES
+//////////////////////////////////////////////////////////////
+// Each "scene" is now a function that builds the stage and runs
+// a choreography — choices appear after the choreography or at
+// natural decision points.
+
+function makeStage() {
+  const stage = el('div', { class: 'stage' });
+  return stage;
+}
+
+function homeButton() {
+  return el('button', { class: 'home-btn', onClick: home }, '← Home');
+}
+function audioButton() {
+  const b = el('button', { class: 'audio-toggle', title: 'Toggle sound', onClick: () => {
+    Audio.setMuted(!Audio.isMuted());
+    b.textContent = Audio.isMuted() ? '🔇' : '🔊';
+  } });
+  b.textContent = Audio.isMuted() ? '🔇' : '🔊';
+  return b;
+}
+
+function speech(parent, text, x, y, cls = '') {
+  const b = el('div', { class: 'bubble ' + cls, text });
+  b.style.left = x; b.style.top = y;
+  parent.appendChild(b);
+  Audio.pop();
+  return b;
+}
+
+function speedlines(parent, x, y, count = 5) {
+  for (let i = 0; i < count; i++) {
+    const sl = el('div', { class: 'speedline' });
+    sl.style.left = x;
+    sl.style.top = (parseFloat(y) + i * 1.2) + '%';
+    sl.style.width = (60 + Math.random() * 40) + 'px';
+    sl.style.animationDelay = (i * 30) + 'ms';
+    parent.appendChild(sl);
+    setTimeout(() => sl.remove(), 600);
+  }
+}
+
+function makePanel({ dialogue, choices, onChoice }) {
+  const panel = el('div', { class: 'panel' });
+  panel.appendChild(el('div', { class: 'dialogue', text: dialogue || '' }));
+  const wrap = el('div', { class: 'choices' });
+  (choices || []).forEach((label, i) => {
+    const btn = el('button', {
+      class: 'choice' + (i % 2 ? ' alt' : ''),
+      onClick: () => onChoice(i, label),
+    }, label);
+    wrap.appendChild(btn);
+  });
+  panel.appendChild(wrap);
+  return panel;
+}
+
+//////////////////////////////////////////////////////////////
+// BACKGROUNDS
+//////////////////////////////////////////////////////////////
+function bgSoccer() {
+  return `<svg class="bg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="800" height="600" fill="url(#g-sky)"/>
+    <!-- distant hills -->
+    <path d="M0 380 Q200 320 400 360 Q600 320 800 360 L800 420 L0 420 Z" fill="#9bcf7e" opacity=".7"/>
+    <!-- clouds -->
+    <g fill="#fff" opacity=".88">
+      <ellipse cx="120" cy="100" rx="44" ry="20"/>
+      <ellipse cx="170" cy="92"  rx="34" ry="18"/>
+      <ellipse cx="640" cy="120" rx="50" ry="22"/>
+      <ellipse cx="700" cy="112" rx="34" ry="18"/>
+    </g>
+    <!-- trees in distance -->
+    <g fill="#5fa84a">
+      <ellipse cx="60"  cy="380" rx="40" ry="44"/>
+      <ellipse cx="130" cy="384" rx="34" ry="36"/>
+      <ellipse cx="740" cy="380" rx="44" ry="46"/>
+    </g>
+    <!-- field -->
+    <rect y="400" width="800" height="200" fill="url(#g-grass)"/>
+    <!-- field stripes -->
+    <g fill="#6cba58" opacity=".55">
+      <rect y="400" width="800" height="20"/>
+      <rect y="440" width="800" height="20"/>
+      <rect y="480" width="800" height="20"/>
+      <rect y="520" width="800" height="20"/>
+      <rect y="560" width="800" height="20"/>
+    </g>
+    <!-- sideline + center circle -->
+    <line x1="0" y1="402" x2="800" y2="402" stroke="#fff" stroke-width="3"/>
+    <line x1="400" y1="402" x2="400" y2="600" stroke="#fff" stroke-width="2" opacity=".8"/>
+    <ellipse cx="400" cy="500" rx="80" ry="22" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/>
+    <!-- goal on left -->
+    <g>
+      <rect x="40" y="350" width="14" height="120" fill="#fff" stroke="#222" stroke-width="2"/>
+      <rect x="40" y="350" width="120" height="14" fill="#fff" stroke="#222" stroke-width="2"/>
+      <rect x="40" y="464" width="120" height="6" fill="#fff" stroke="#222" stroke-width="2"/>
+      <g stroke="#fff" stroke-width="1" opacity=".85">
+        ${Array.from({length: 10}).map((_,i)=>`<line x1="${54+i*10}" y1="364" x2="${54+i*10}" y2="464"/>`).join('')}
+        ${Array.from({length: 8}).map((_,i)=>`<line x1="54" y1="${376+i*12}" x2="154" y2="${376+i*12}"/>`).join('')}
+      </g>
+    </g>
+  </svg>`;
+}
+
+//////////////////////////////////////////////////////////////
+// SOCCER ADVENTURE — choreographed
+//////////////////////////////////////////////////////////////
+async function playSoccer() {
+  // ----- Scene 1: take the field, then a real pass-and-trap -----
+  const stage = makeStage();
+  stage.innerHTML = bgSoccer();
+  stage.appendChild(homeButton());
+  stage.appendChild(audioButton());
+
+  // place actors
+  const margot = makeKid('margot', { x: '4%',  bottom: '8%' });
+  const luca   = makeKid('luca',   { x: '34%', bottom: '8%' });
+  const sonny  = makeKid('sonny',  { x: '64%', bottom: '8%' });
+  // increase sizes a touch
+  margot.style.width = '15%';
+  luca.style.width   = '13%';
+  sonny.style.width  = '11%';
+  stage.append(margot, luca, sonny);
+
+  // panel mounts dynamically
+  const panelHost = div('panel-host');
+  const card = el('div', { class: 'card' }, [stage, panelHost]);
+  app.innerHTML = ''; app.appendChild(card);
+
+  // step 1: kids run toward center together
+  margot.setPose('running'); luca.setPose('running'); sonny.setPose('running');
+  speech(stage, "Let's play, Mom!", '6%', '14%');
+  await Promise.all([
+    margot.moveTo('14%', { duration: 1200 }),
+    luca.moveTo('38%',   { duration: 1200 }),
+    sonny.moveTo('60%',  { duration: 1200 }),
+  ]);
+  margot.setPose('idle'); luca.setPose('idle'); sonny.setPose('idle');
+  Audio.whistle();
+  await delay(400);
+
+  // ask first choice
+  const choice1 = await new Promise(res => {
+    panelHost.replaceChildren(makePanel({
+      dialogue: "Margot has the ball. Who should she pass to?",
+      choices: ['Pass to Luca', 'Pass to Sonny'],
+      onChoice: i => res(i),
+    }));
+  });
+  // remove panel during choreography
+  panelHost.replaceChildren();
+
+  const receiver = (choice1 === 0) ? luca : sonny;
+  const receiverName = (choice1 === 0) ? 'luca' : 'sonny';
+
+  // ---------- PASS CHOREOGRAPHY ----------
+  // Margot turns to face receiver, plants foot, swings, kicks. Ball arcs.
+  // Receiver runs in, traps, controls.
+
+  // create ball at margot's feet
+  const ball = el('div', { class: 'ball' });
+  const ballShadow = el('div', { class: 'ball-shadow' });
+  stage.appendChild(ballShadow);
+  stage.appendChild(ball);
+  function placeBall(xPct, yPct, shadowYPct) {
+    ball.style.left = xPct; ball.style.top = yPct;
+    ballShadow.style.left = xPct;
+    ballShadow.style.top = (shadowYPct ?? '88%');
+  }
+  placeBall('19%', '82%', '88%');
+
+  // wind-up: temporarily inject inline keyframes on margot's right leg
+  const margotLegR = margot.querySelector('.leg-r');
+  margotLegR.animate([
+    { transform: 'rotate(0deg)' },
+    { transform: 'rotate(-50deg)' },
+  ], { duration: 350, fill: 'forwards', easing: 'ease-out' });
+  await delay(350);
+
+  Audio.kick();
+  // foot snaps forward
+  margotLegR.animate([
+    { transform: 'rotate(-50deg)' },
+    { transform: 'rotate(45deg)' },
+    { transform: 'rotate(10deg)' },
+  ], { duration: 220, fill: 'forwards', easing: 'cubic-bezier(.2,.8,.4,1)' });
+
+  // ball flies in arc toward receiver position
+  const startLeftPct = 19;
+  const endLeftPct = (receiverName === 'luca') ? 41 : 63;
+  const startTopPct = 82, peakTopPct = 50, endTopPct = 80;
+  const flightMs = 800;
+  const startTime = performance.now();
+  // animate ball + shadow with rAF
+  await new Promise(resolve => {
+    function tick(now) {
+      const t = Math.min(1, (now - startTime) / flightMs);
+      const x = startLeftPct + (endLeftPct - startLeftPct) * t;
+      // quadratic for arc
+      const y = startTopPct + (endTopPct - startTopPct) * t - 4 * (peakTopPct - startTopPct) * t * (1 - t) * -1;
+      // simpler: parabola from start to end with peak
+      const arcY = (1 - t) * startTopPct + t * endTopPct - Math.sin(Math.PI * t) * (startTopPct - peakTopPct);
+      ball.style.left = x + '%';
+      ball.style.top  = arcY + '%';
+      ball.style.transform = `rotate(${t * 720}deg)`;
+      // shadow tracks horizontal only, scales with height
+      ballShadow.style.left = x + '%';
+      ballShadow.style.transform = `scale(${1 - 0.3 * Math.sin(Math.PI * t)})`;
+      ballShadow.style.opacity = 0.4 - 0.2 * Math.sin(Math.PI * t);
+      speedlines(stage, (x + 2) + '%', (arcY + 1) + '%', 1);
+      if (t < 1) requestAnimationFrame(tick); else resolve();
+    }
+    requestAnimationFrame(tick);
+  });
+
+  // restore margot's leg
+  margotLegR.animate([{ transform: 'rotate(10deg)' }, { transform: 'rotate(0deg)' }], { duration: 250, fill: 'forwards' });
+
+  // receiver: trap animation — pull foot back as ball arrives
+  Audio.trap();
+  const recvLegR = receiver.querySelector('.leg-r');
+  recvLegR.animate([
+    { transform: 'rotate(0deg)' },
+    { transform: 'rotate(-22deg)' },
+    { transform: 'rotate(0deg)' },
+  ], { duration: 400, fill: 'forwards' });
+  // stick ball at receiver's foot
+  placeBall((endLeftPct + 0.5) + '%', '82%', '88%');
+  speech(stage, 'Got it!', (endLeftPct - 4) + '%', '14%', 'small');
+  await delay(500);
+
+  // dribble a step toward goal (left) — receiver runs left with ball
+  receiver.setPose('running');
+  const dribbleEndPct = Math.max(20, endLeftPct - 18);
+  const dribStart = performance.now();
+  const dribDur = 1100;
+  await new Promise(resolve => {
+    function tick(now) {
+      const t = Math.min(1, (now - dribStart) / dribDur);
+      const x = endLeftPct + (dribbleEndPct - endLeftPct) * t;
+      receiver.style.left = x + '%';
+      // ball bounces along
+      const bounceY = 82 - Math.abs(Math.sin(t * Math.PI * 6)) * 4;
+      placeBall((x + 2) + '%', bounceY + '%', '88%');
+      if (t < 1) requestAnimationFrame(tick); else resolve();
+    }
+    requestAnimationFrame(tick);
+  });
+  receiver.setPose('idle');
+  await delay(200);
+
+  // ---------- Scene 2: choose to shoot or pass back ----------
+  const choice2 = await new Promise(res => {
+    panelHost.replaceChildren(makePanel({
+      dialogue: receiverName === 'luca'
+        ? "Luca's eyeing the goal. What now?"
+        : "Sonny dribbled it (kind of)! What now?",
+      choices: ['SHOOT!', 'Pass back to Margot'],
+      onChoice: i => res(i),
+    }));
+  });
+  panelHost.replaceChildren();
+
+  if (choice2 === 1) {
+    // pass back to Margot, then she shoots
+    Audio.kick();
+    const recv2 = receiver.querySelector('.leg-r');
+    recv2.animate([{ transform:'rotate(0)'}, {transform:'rotate(-40deg)'}, {transform:'rotate(35deg)'}, {transform:'rotate(0)'}], { duration: 500, fill: 'forwards' });
+    // ball back to Margot
+    const fromX = parseFloat(receiver.style.left);
+    const toX = parseFloat(margot.style.left);
+    await arcBall(stage, ball, ballShadow, fromX + 2, toX + 2, 800);
+    Audio.trap();
+    placeBall((toX + 2) + '%', '82%', '88%');
+    await delay(300);
+  }
+
+  // SHOOT: Margot or receiver winds up and SHOOTS toward goal
+  const shooter = (choice2 === 1) ? margot : receiver;
+  const shooterLeg = shooter.querySelector('.leg-r');
+  shooterLeg.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-65deg)' }], { duration: 320, fill: 'forwards', easing: 'ease-out' });
+  await delay(320);
+  Audio.kick();
+  shooterLeg.animate([{ transform: 'rotate(-65deg)' }, { transform: 'rotate(55deg)' }, { transform: 'rotate(0deg)' }], { duration: 280, fill: 'forwards', easing: 'cubic-bezier(.2,.8,.4,1)' });
+
+  // ball flies fast and low to goal (goal is far left ~7-15%)
+  const goalX = 11;
+  const sFromX = parseFloat(shooter.style.left) + 2;
+  await arcBall(stage, ball, ballShadow, sFromX, goalX, 600, 30);
+  Audio.net();
+  // brief net ripple — flash goal area
+  const flash = el('div'); Object.assign(flash.style, { position:'absolute', left:'5%', top:'58%', width:'18%', height:'18%', background:'rgba(255,255,255,0.4)', borderRadius:'10px' });
+  stage.appendChild(flash);
+  setTimeout(() => flash.remove(), 200);
+  await delay(250);
+
+  // ---------- Scene 3: GOAL pile-up ----------
+  Audio.airhorn();
+  Audio.cheer();
+  // all kids run toward goal, then cheer
+  margot.setPose('running'); luca.setPose('running'); sonny.setPose('running');
+  await Promise.all([
+    margot.moveTo('22%', { duration: 900 }),
+    luca.moveTo('32%',   { duration: 900 }),
+    sonny.moveTo('42%',  { duration: 900 }),
+  ]);
+  margot.setPose('cheer'); luca.setPose('cheer'); sonny.setPose('cheer');
+  speech(stage, 'GOOOAL!', '24%', '8%', 'big');
+  ball.remove(); ballShadow.remove();
+  await delay(1400);
+
+  // confetti burst
+  const fx = el('div', { class: 'fx' });
+  const colors = ['#ff6b9a','#ffd23a','#7fc46b','#7ec3ff','#e23b3b','#ff8a2a'];
+  for (let i = 0; i < 22; i++) {
+    const c = el('div', { class: 'conf' });
+    c.style.left = (Math.random() * 100) + '%';
+    c.style.background = colors[i % colors.length];
+    c.style.animationDelay = (Math.random() * 1.2) + 's';
+    c.style.animationDuration = (2.4 + Math.random() * 1.6) + 's';
+    fx.appendChild(c);
+  }
+  stage.appendChild(fx);
+
+  panelHost.replaceChildren(makePanel({
+    dialogue: "GOOOAL!! The kids tumble into a cheering pile.",
+    choices: ['Run to Mom! ❤'],
+    onChoice: () => renderFinal(),
+  }));
+}
+
+// helper: arc the ball with shadow over duration
+function arcBall(stage, ball, shadow, fromXPct, toXPct, durMs, peakLift = 35) {
+  const start = performance.now();
+  const startTop = 82, peakTop = 82 - peakLift;
+  return new Promise(resolve => {
+    function tick(now) {
+      const t = Math.min(1, (now - start) / durMs);
+      const x = fromXPct + (toXPct - fromXPct) * t;
+      const y = startTop - Math.sin(Math.PI * t) * (startTop - peakTop);
+      ball.style.left = x + '%'; ball.style.top = y + '%';
+      ball.style.transform = `rotate(${t * 720}deg)`;
+      shadow.style.left = x + '%';
+      shadow.style.top = '88%';
+      shadow.style.opacity = 0.4 - 0.2 * Math.sin(Math.PI * t);
+      shadow.style.transform = `scale(${1 - 0.4 * Math.sin(Math.PI * t)})`;
+      // sparse speedlines
+      if (Math.random() < 0.3) speedlines(stage, x + '%', (y - 1) + '%', 1);
+      if (t < 1) requestAnimationFrame(tick); else resolve();
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+//////////////////////////////////////////////////////////////
+// PLACEHOLDER GYM + ICE adventures (will be rebuilt next pass)
+//////////////////////////////////////////////////////////////
+async function playGym() {
+  app.innerHTML = '';
+  const card = el('div', { class: 'card' });
+  const stage = makeStage();
+  stage.style.background = 'linear-gradient(180deg, #cfe7f5 0%, #f1d6b0 100%)';
+  stage.appendChild(homeButton());
+  stage.appendChild(audioButton());
+  const margot = makeKid('margot', { x: '20%', bottom: '8%' });
+  const luca   = makeKid('luca',   { x: '50%', bottom: '8%' });
+  const sonny  = makeKid('sonny',  { x: '76%', bottom: '8%' });
+  stage.append(margot, luca, sonny);
+  margot.setPose('idle'); luca.setPose('idle'); sonny.setPose('idle');
+  card.append(stage);
+  const panel = makePanel({
+    dialogue: "American Ninja Warrior course coming next — pilot version still being built. Skip to the final cheer for now?",
+    choices: ['Skip to final cheer'],
+    onChoice: () => renderFinal(),
+  });
+  card.append(panel);
+  app.appendChild(card);
+}
+
+async function playIce() {
+  app.innerHTML = '';
+  const card = el('div', { class: 'card' });
+  const stage = makeStage();
+  stage.style.background = 'linear-gradient(180deg, #dfeef7 0%, #f5fbff 100%)';
+  stage.appendChild(homeButton());
+  stage.appendChild(audioButton());
+  const margot = makeKid('margot', { x: '20%', bottom: '8%' });
+  const luca   = makeKid('luca',   { x: '50%', bottom: '8%' });
+  const sonny  = makeKid('sonny',  { x: '76%', bottom: '8%' });
+  stage.append(margot, luca, sonny);
+  card.append(stage);
+  const panel = makePanel({
+    dialogue: "Ice & Hockey rebuild coming next — pilot version still being built. Skip to the final cheer for now?",
+    choices: ['Skip to final cheer'],
+    onChoice: () => renderFinal(),
+  });
+  card.append(panel);
+  app.appendChild(card);
+}
+
+//////////////////////////////////////////////////////////////
+// FINAL CHEER
+//////////////////////////////////////////////////////////////
+function renderFinal() {
+  app.innerHTML = '';
+  const stage = makeStage();
+  stage.style.background = 'linear-gradient(180deg, #ffd9e6 0%, #fff3df 100%)';
+  stage.appendChild(homeButton());
+  stage.appendChild(audioButton());
+
+  const margot = makeKid('margot', { x: '12%', bottom: '8%' });
+  const luca   = makeKid('luca',   { x: '40%', bottom: '8%' });
+  const sonny  = makeKid('sonny',  { x: '68%', bottom: '8%' });
+  margot.style.width = '18%'; luca.style.width = '15%'; sonny.style.width = '13%';
+  stage.append(margot, luca, sonny);
+  margot.setPose('cheer'); luca.setPose('cheer'); sonny.setPose('cheer');
+
+  // bubble sequence + voice clips
+  const bubbles = el('div', { class: 'bubbles' });
+  stage.appendChild(bubbles);
+  function delayedBubble(text, x, y, ms, cls = '') {
+    setTimeout(() => {
+      const b = el('div', { class: 'bubble ' + cls, text });
+      b.style.left = x; b.style.top = y;
+      bubbles.appendChild(b);
+      Audio.pop();
+    }, ms);
+  }
+  delayedBubble('I',     '14%', '12%',  300);
+  delayedBubble('LOVE',  '40%',  '8%',  900);
+  delayedBubble('YOU!',  '66%', '12%', 1500);
+  setTimeout(() => Audio.cheer(), 1500);
+
+  // voice clips: try to play each kid in sequence; falls through silently if missing
+  setTimeout(() => Audio.tryVoice('margot'), 350);
+  setTimeout(() => Audio.tryVoice('luca'),   1900);
+  setTimeout(() => Audio.tryVoice('sonny'),  3500);
+
+  // big final bubble centered
+  setTimeout(() => {
+    const b = el('div', { class: 'bubble big', text: "HAPPY MOTHER'S DAY, MOM!" });
+    b.style.left = '50%'; b.style.top = '36%';
+    b.style.transformOrigin = 'center center';
+    b.style.transform = 'translateX(-50%) scale(0)';
+    b.style.animation = 'pop-center 360ms cubic-bezier(.18,1.3,.5,1) forwards';
+    bubbles.appendChild(b);
+    Audio.airhorn();
+  }, 2200);
+
+  // inject pop-center keyframes once
+  if (!document.getElementById('pop-center-style')) {
+    const st = document.createElement('style');
+    st.id = 'pop-center-style';
+    st.textContent = `@keyframes pop-center {
+      0% { transform: translateX(-50%) scale(0) translateY(8px); }
+      70% { transform: translateX(-50%) scale(1.08) translateY(-2px); }
+      100% { transform: translateX(-50%) scale(1) translateY(0); }
+    }`;
+    document.head.appendChild(st);
+  }
+
+  // hearts + confetti
+  const fx = el('div', { class: 'fx' });
+  const colors = ['#ff6b9a','#ffd23a','#7fc46b','#7ec3ff','#e23b3b','#ff8a2a'];
+  for (let i = 0; i < 18; i++) {
+    const h = el('div', { class: 'heart', text: '❤' });
+    h.style.left = (Math.random() * 100) + '%';
+    h.style.color = colors[i % colors.length];
+    h.style.animationDelay = (Math.random() * 3) + 's';
+    h.style.animationDuration = (2.8 + Math.random() * 2) + 's';
+    fx.appendChild(h);
+  }
+  for (let i = 0; i < 30; i++) {
+    const c = el('div', { class: 'conf' });
+    c.style.left = (Math.random() * 100) + '%';
+    c.style.background = colors[i % colors.length];
+    c.style.animationDelay = (Math.random() * 3) + 's';
+    c.style.animationDuration = (2.5 + Math.random() * 2.5) + 's';
+    fx.appendChild(c);
+  }
+  stage.appendChild(fx);
+
+  const panel = el('div', { class: 'panel final' });
+  panel.appendChild(el('h2', { text: 'We love you SO much, Mom!' }));
+  const row = el('div', { class: 'row' });
+  row.appendChild(el('button', { class: 'big', onClick: home }, ['Play another adventure']));
+  panel.appendChild(row);
+
+  const card = el('div', { class: 'card' }, [stage, panel]);
+  app.appendChild(card);
+}
+
+//////////////////////////////////////////////////////////////
+// INTRO
+//////////////////////////////////////////////////////////////
+const app = document.getElementById('app');
+
+function home() {
+  Audio.startMusic();
+  app.innerHTML = '';
+  const card = el('div', { class: 'card' });
+  const intro = el('div', { class: 'intro' });
+  intro.appendChild(el('h1', { text: "Happy Mother's Day!" }));
+  intro.appendChild(el('h2', { text: 'Pick an adventure with Margot, Luca & Sonny ❤' }));
+
+  const picker = el('div', { class: 'picker' });
+
+  function makePick(label, onPick, art) {
+    const b = el('button', { class: 'pick', onClick: () => { Audio.unlock(); Audio.startMusic(); onPick(); } });
+    b.innerHTML = art;
+    b.appendChild(el('div', { class: 'label', text: label }));
     return b;
   }
 
-  // ----- backgrounds -----
-  function bgSoccer() {
-    return `<svg class="bg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <linearGradient id="sky1" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#bfe4ff"/><stop offset="1" stop-color="#eaf6ff"/>
-        </linearGradient>
-      </defs>
-      <rect width="800" height="600" fill="url(#sky1)"/>
-      <circle cx="120" cy="90" r="38" fill="#fff" opacity=".85"/>
-      <circle cx="170" cy="80" r="28" fill="#fff" opacity=".85"/>
-      <circle cx="660" cy="120" r="42" fill="#fff" opacity=".85"/>
-      <rect y="360" width="800" height="240" fill="#7fc46b"/>
-      <path d="M0 360 L800 360" stroke="#5aa849" stroke-width="3"/>
-      <path d="M400 370 L400 600" stroke="#fff" stroke-width="3" opacity=".8"/>
-      <circle cx="400" cy="450" r="40" stroke="#fff" stroke-width="3" fill="none" opacity=".8"/>
-      <!-- goal -->
-      <rect x="60" y="320" width="120" height="60" fill="none" stroke="#fff" stroke-width="4"/>
-      <line x1="60" y1="320" x2="180" y2="380" stroke="#fff" stroke-width="2" opacity=".5"/>
-    </svg>`;
-  }
-  function bgGym() {
-    return `<svg class="bg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
-      <rect width="800" height="600" fill="#cfe7f5"/>
-      <rect y="0" width="800" height="380" fill="#e8d5b4"/>
-      <rect y="380" width="800" height="220" fill="#f1d6b0"/>
-      <rect x="0" y="360" width="800" height="20" fill="#c9b289"/>
-      <!-- bunting -->
-      <path d="M40 60 Q400 30 760 60" stroke="#e3477a" stroke-width="3" fill="none"/>
-      <g fill="#ff6b9a"><polygon points="100,60 90,90 110,90"/><polygon points="220,68 210,98 230,98"/><polygon points="340,72 330,102 350,102"/><polygon points="460,72 450,102 470,102"/><polygon points="580,68 570,98 590,98"/><polygon points="700,60 690,90 710,90"/></g>
-      <!-- balance beam in back -->
-      <rect x="540" y="320" width="220" height="14" fill="#a87b4b"/>
-      <rect x="556" y="334" width="6" height="40" fill="#7d5a35"/>
-      <rect x="740" y="334" width="6" height="40" fill="#7d5a35"/>
-    </svg>`;
-  }
-  function bgIce() {
-    return `<svg class="bg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
-      <rect width="800" height="600" fill="#dfeef7"/>
-      <rect y="320" width="800" height="280" fill="#e6f4fb"/>
-      <line x1="0" y1="320" x2="800" y2="320" stroke="#9bc1d4" stroke-width="3"/>
-      <!-- rink lines -->
-      <line x1="0" y1="430" x2="800" y2="430" stroke="#f08a8a" stroke-width="3" opacity=".7"/>
-      <circle cx="400" cy="500" r="60" stroke="#7da9bd" stroke-width="3" fill="none"/>
-      <!-- boards -->
-      <rect y="312" width="800" height="10" fill="#fff" stroke="#444" stroke-width="2"/>
-      <!-- crowd silhouettes -->
-      <g fill="#5e4a72" opacity=".65">
-        ${Array.from({length: 22}).map((_,i)=>`<circle cx="${20+i*36}" cy="280" r="14"/><rect x="${8+i*36}" y="290" width="24" height="22" rx="4"/>`).join('')}
-      </g>
-    </svg>`;
-  }
+  picker.appendChild(makePick('Soccer', playSoccer, `
+    <svg viewBox="0 0 200 110">
+      <rect width="200" height="110" fill="url(#g-grass)"/>
+      <circle cx="100" cy="60" r="24" fill="#fff" stroke="#222" stroke-width="3"/>
+      <polygon points="100,46 112,55 108,69 92,69 88,55" fill="#222"/>
+    </svg>`));
 
-  // ----- state machine -----
-  const state = { adventure: null, sceneIndex: 0 };
+  picker.appendChild(makePick('Ninja Gym', playGym, `
+    <svg viewBox="0 0 200 110">
+      <rect width="200" height="110" fill="#1f2740"/>
+      <rect x="20" y="80" width="160" height="14" fill="#a07a52" stroke="#5e3f23" stroke-width="2"/>
+      <!-- warped wall silhouette -->
+      <path d="M40 80 Q70 30 110 50 Q140 65 150 80 Z" fill="#3a4a8a" stroke="#1f2740" stroke-width="2"/>
+      <circle cx="100" cy="40" r="10" fill="#ffd23a" stroke="#222" stroke-width="2"/>
+    </svg>`));
 
-  function go(adv) { state.adventure = adv; state.sceneIndex = 0; render(); }
-  function next() {
-    state.sceneIndex++;
-    const list = SCENES[state.adventure];
-    if (state.sceneIndex >= list.length) renderFinal();
-    else render();
-  }
-  function home() { state.adventure = null; state.sceneIndex = 0; render(); }
+  picker.appendChild(makePick('Ice & Hockey', playIce, `
+    <svg viewBox="0 0 200 110">
+      <rect width="200" height="110" fill="url(#g-ice)"/>
+      <ellipse cx="100" cy="80" rx="80" ry="14" fill="#fff" opacity=".8"/>
+      <rect x="84" y="78" width="32" height="8" rx="3" fill="#1a1a1a"/>
+      <!-- hockey stick -->
+      <path d="M40 70 L150 28 L162 38 L52 80 Z" fill="#a07a52" stroke="#222" stroke-width="2"/>
+      <rect x="148" y="26" width="16" height="14" fill="#222" transform="rotate(20 156 33)"/>
+    </svg>`));
 
-  // ----- scene wrapper -----
-  function renderScene(scene) {
-    const stage = el('div', { class: 'stage' });
-    stage.innerHTML = scene.bg();
-    const homeBtn = el('button', { class: 'home-btn', onClick: home }, '← Home');
-    stage.appendChild(homeBtn);
-    scene.actors().forEach(a => stage.appendChild(a));
-    if (scene.fx) scene.fx().forEach(f => stage.appendChild(f));
-    if (scene.bubbles) {
-      const wrap = el('div', { class: 'bubbles' });
-      scene.bubbles().forEach((b, i) => {
-        b.style.animationDelay = (i * 220) + 'ms';
-        wrap.appendChild(b);
-      });
-      stage.appendChild(wrap);
-    }
-    const panel = el('div', { class: 'panel' });
-    panel.appendChild(el('div', { class: 'dialogue' }, scene.dialogue));
-    const choices = el('div', { class: 'choices' });
-    scene.choices.forEach((c, i) => {
-      choices.appendChild(el('button', {
-        class: 'choice' + (i % 2 ? ' alt' : ''),
-        onClick: () => { if (c.onPick) c.onPick(); next(); }
-      }, c.label));
-    });
-    panel.appendChild(choices);
-    const card = el('div', { class: 'card' }, [stage, panel]);
-    return card;
-  }
+  intro.appendChild(picker);
+  intro.appendChild(el('div', { class: 'footer-note', text: 'Made with love by Margot, Luca, Sonny ❤ (and Dad)' }));
+  card.appendChild(intro);
+  app.appendChild(card);
+}
 
-  // ====================================================
-  //                    SCENES
-  // ====================================================
-
-  const SCENES = {
-    soccer: [
-      { // 1: kids run onto field
-        bg: bgSoccer,
-        actors: () => [
-          kid('margot', { x: '12%', bottom: '6%', pose: 'run' }),
-          kid('luca',   { x: '40%', bottom: '6%', pose: 'run' }),
-          kid('sonny',  { x: '68%', bottom: '6%', pose: 'run' }),
-        ],
-        bubbles: () => [
-          bubble("Let's play, Mom!", '8%', '12%'),
-        ],
-        dialogue: "The kids burst onto the field! Who gets the first pass?",
-        choices: [
-          { label: 'Pass to Margot' },
-          { label: 'Pass to Luca' },
-        ],
-      },
-      { // 2: dribble past cone
-        bg: bgSoccer,
-        actors: () => {
-          const a = [
-            kid('margot', { x: '20%', bottom: '6%', pose: 'run' }),
-            kid('luca',   { x: '46%', bottom: '6%', pose: 'run' }),
-            kid('sonny',  { x: '70%', bottom: '6%', pose: 'wobble', scale: 0.95 }),
-          ];
-          const ball = el('div', { class: 'ball' });
-          ball.style.left = '50%';
-          a.push(ball);
-          // cone
-          const cone = el('div');
-          cone.style.position = 'absolute';
-          cone.style.bottom = '14%';
-          cone.style.left = '82%';
-          cone.style.width = '0'; cone.style.height = '0';
-          cone.style.borderLeft = '14px solid transparent';
-          cone.style.borderRight = '14px solid transparent';
-          cone.style.borderBottom = '34px solid #ff8a2a';
-          a.push(cone);
-          return a;
-        },
-        bubbles: () => [
-          bubble("Sonny, wait for me!", '52%', '12%', 'small'),
-        ],
-        dialogue: "Sonny toddles after the ball, giggling. Time to score!",
-        choices: [
-          { label: 'Shoot!' },
-          { label: 'Trick first!' },
-        ],
-      },
-      { // 3: GOAL pile-up
-        bg: bgSoccer,
-        actors: () => [
-          kid('margot', { x: '28%', bottom: '8%', pose: 'cheer' }),
-          kid('luca',   { x: '46%', bottom: '8%', pose: 'cheer' }),
-          kid('sonny',  { x: '64%', bottom: '8%', pose: 'cheer' }),
-        ],
-        bubbles: () => [
-          bubble('GOOOAL!', '38%', '14%', 'big'),
-        ],
-        dialogue: "GOOOAL!! The kids tumble into a happy pile.",
-        choices: [
-          { label: 'Run to Mom!' },
-        ],
-      },
-    ],
-
-    gym: [
-      { // 1: Margot tumbles
-        bg: bgGym,
-        actors: () => [
-          kid('margot', { x: '22%', bottom: '14%', pose: 'tumble', scale: 1.05 }),
-          kid('luca',   { x: '6%',  bottom: '8%', pose: 'bob' }),
-          kid('sonny',  { x: '78%', bottom: '8%', pose: 'bob' }),
-        ],
-        bubbles: () => [
-          bubble("Watch this!", '20%', '12%'),
-        ],
-        dialogue: "Margot launches into a back-tumbling pass across the mat!",
-        choices: [
-          { label: 'CHEER!' },
-          { label: 'Wave a "10!" sign' },
-        ],
-      },
-      { // 2: Luca ninja
-        bg: bgGym,
-        actors: () => {
-          const a = [
-            kid('luca',   { x: '40%', bottom: '12%', pose: 'cheer', scale: 1.05 }),
-            kid('margot', { x: '8%',  bottom: '8%', pose: 'bob' }),
-            kid('sonny',  { x: '78%', bottom: '8%', pose: 'bob' }),
-          ];
-          // ninja star
-          const star = el('div', {
-            html: `<svg viewBox="0 0 60 60" width="60" height="60"><polygon points="30,2 36,24 58,24 40,36 46,58 30,46 14,58 20,36 2,24 24,24" fill="#444" stroke="#000" stroke-width="2"/></svg>`,
-          });
-          star.style.position = 'absolute';
-          star.style.left = '64%';
-          star.style.top = '30%';
-          star.style.animation = 'spin 1s linear infinite';
-          a.push(star);
-          return a;
-        },
-        bubbles: () => [
-          bubble("HI-YAH!", '38%', '14%'),
-        ],
-        dialogue: "Luca strikes a ninja stance! Karate-flip across the mat!",
-        choices: [
-          { label: 'Ninja stance' },
-          { label: 'Karate chop!' },
-        ],
-      },
-      { // 3: Sonny toddler roll
-        bg: bgGym,
-        actors: () => [
-          kid('margot', { x: '6%',  bottom: '8%', pose: 'cheer' }),
-          kid('luca',   { x: '78%', bottom: '8%', pose: 'cheer' }),
-          kid('sonny',  { x: '40%', bottom: '10%', pose: 'tumble', scale: 1.05 }),
-        ],
-        bubbles: () => [
-          bubble("YAY ME!", '38%', '14%'),
-        ],
-        dialogue: "Sonny does a wobbly forward roll, lands on his bum, and claps for himself!",
-        choices: [
-          { label: 'Run to Mom!' },
-        ],
-      },
-    ],
-
-    ice: [
-      { // 1: Margot figure skates
-        bg: bgIce,
-        actors: () => [
-          kid('margot', { x: '40%', bottom: '14%', pose: 'spin', scale: 1.05 }),
-          kid('luca',   { x: '8%',  bottom: '12%', pose: 'bob' }),
-          kid('sonny',  { x: '78%', bottom: '10%', pose: 'wobble', scale: 0.9 }),
-        ],
-        bubbles: () => [
-          bubble("Look, Mom!", '38%', '12%'),
-        ],
-        dialogue: "Margot glides into a sparkling spin in her sparkly red dress!",
-        choices: [
-          { label: 'Spin faster!' },
-          { label: 'Strike a pose' },
-        ],
-      },
-      { // 2: Luca slap shot
-        bg: bgIce,
-        actors: () => {
-          const a = [
-            kid('luca',   { x: '20%', bottom: '12%', pose: 'cheer', scale: 1.05 }),
-            kid('margot', { x: '6%',  bottom: '12%', pose: 'bob' }),
-            kid('sonny',  { x: '78%', bottom: '10%', pose: 'wobble', scale: 0.9 }),
-          ];
-          // hockey stick (simple)
-          const stick = el('div', {
-            html: `<svg viewBox="0 0 120 200" width="60" height="100"><path d="M20 10 L100 170 L80 195 L0 30 Z" fill="#a87b4b" stroke="#222" stroke-width="3"/></svg>`,
-          });
-          stick.style.position = 'absolute';
-          stick.style.left = '24%';
-          stick.style.bottom = '14%';
-          a.push(stick);
-          const puck = el('div', { class: 'puck' });
-          puck.style.left = '34%';
-          a.push(puck);
-          // goal
-          const goal = el('div', {
-            html: `<svg viewBox="0 0 200 140" width="120" height="80"><rect x="6" y="6" width="188" height="120" fill="rgba(255,255,255,0.4)" stroke="#222" stroke-width="4"/><g stroke="#fff" stroke-width="1.5" opacity=".7">${Array.from({length: 8}).map((_,i)=>`<line x1="${20+i*22}" y1="6" x2="${20+i*22}" y2="126"/>`).join('')}${Array.from({length: 6}).map((_,i)=>`<line x1="6" y1="${20+i*18}" x2="194" y2="${20+i*18}"/>`).join('')}</g></svg>`,
-          });
-          goal.style.position = 'absolute';
-          goal.style.right = '4%';
-          goal.style.bottom = '20%';
-          a.push(goal);
-          return a;
-        },
-        bubbles: () => [
-          bubble("SHE SHOOTS!", '32%', '12%'),
-        ],
-        dialogue: "Luca winds up in his orange jersey... how should he take the shot?",
-        choices: [
-          { label: 'SLAPSHOT!' },
-          { label: 'Wrist shot' },
-        ],
-      },
-      { // 3: Sonny waddles on ice
-        bg: bgIce,
-        actors: () => [
-          kid('margot', { x: '6%',  bottom: '12%', pose: 'cheer' }),
-          kid('luca',   { x: '78%', bottom: '12%', pose: 'cheer' }),
-          kid('sonny',  { x: '42%', bottom: '12%', pose: 'wobble', scale: 1.0 }),
-        ],
-        bubbles: () => [
-          bubble("Whee!", '40%', '14%'),
-        ],
-        dialogue: "Sonny waddles on tiny skates, plops on his bum, and laughs!",
-        choices: [
-          { label: 'Run to Mom!' },
-        ],
-      },
-    ],
-  };
-
-  // ----- intro -----
-  function renderIntro() {
-    app.innerHTML = '';
-    const card = el('div', { class: 'card' });
-    const intro = el('div', { class: 'intro' });
-    intro.appendChild(el('h1', {}, "Happy Mother's Day!"));
-    intro.appendChild(el('h2', {}, "Pick an adventure with Margot, Luca & Sonny ❤"));
-
-    const picker = el('div', { class: 'picker' });
-
-    function makePick(label, advKey, art) {
-      const b = el('button', { class: 'pick', onClick: () => go(advKey) });
-      b.innerHTML = art;
-      b.appendChild(el('div', { class: 'label' }, label));
-      return b;
-    }
-
-    picker.appendChild(makePick('Soccer', 'soccer', `
-      <svg viewBox="0 0 200 110">
-        <rect width="200" height="110" fill="#9fdc8a"/>
-        <circle cx="100" cy="60" r="24" fill="#fff" stroke="#222" stroke-width="3"/>
-        <polygon points="100,46 112,55 108,69 92,69 88,55" fill="#222"/>
-      </svg>`));
-
-    picker.appendChild(makePick('Gymnastics', 'gym', `
-      <svg viewBox="0 0 200 110">
-        <rect width="200" height="110" fill="#fde0ef"/>
-        <rect x="20" y="70" width="160" height="14" fill="#f1d6b0" stroke="#a87b4b" stroke-width="2"/>
-        <circle cx="100" cy="48" r="14" fill="#ffd23a" stroke="#222" stroke-width="3"/>
-        <path d="M86 56 Q100 86 114 56" stroke="#222" stroke-width="3" fill="none"/>
-      </svg>`));
-
-    picker.appendChild(makePick('Ice & Hockey', 'ice', `
-      <svg viewBox="0 0 200 110">
-        <rect width="200" height="110" fill="#dfeef7"/>
-        <ellipse cx="100" cy="80" rx="80" ry="14" fill="#fff" opacity=".8"/>
-        <rect x="84" y="78" width="32" height="8" rx="3" fill="#1a1a1a"/>
-        <path d="M40 70 L150 30" stroke="#a87b4b" stroke-width="6" stroke-linecap="round"/>
-      </svg>`));
-
-    intro.appendChild(picker);
-    intro.appendChild(el('div', { class: 'footer-note' }, "Made with love by Margot, Luca, Sonny ❤ (and Dad)"));
-    card.appendChild(intro);
-    app.appendChild(card);
-  }
-
-  // ----- final cheer -----
-  function renderFinal() {
-    app.innerHTML = '';
-    const stage = el('div', { class: 'stage' });
-    stage.style.background = 'linear-gradient(180deg, #ffd9e6 0%, #fff3df 100%)';
-    const homeBtn = el('button', { class: 'home-btn', onClick: home }, '← Home');
-    stage.appendChild(homeBtn);
-    // three kids cheering
-    [
-      kid('margot', { x: '12%', bottom: '6%', pose: 'cheer', scale: 1.1 }),
-      kid('luca',   { x: '40%', bottom: '6%', pose: 'cheer', scale: 1.1 }),
-      kid('sonny',  { x: '68%', bottom: '6%', pose: 'cheer', scale: 1.1 }),
-    ].forEach(c => stage.appendChild(c));
-
-    // bubble sequence
-    const bubbles = el('div', { class: 'bubbles' });
-    const seq = [
-      { text: 'I',     x: '14%', y: '10%', delay:   100 },
-      { text: 'LOVE',  x: '40%', y:  '6%', delay:   600 },
-      { text: 'YOU!',  x: '66%', y: '10%', delay:  1100 },
-      { text: "HAPPY MOTHER'S DAY, MOM!", x: '50%', y: '32%', cls: 'big', delay: 1700, center: true },
-    ];
-    seq.forEach(s => {
-      const b = bubble(s.text, s.x, s.y, s.cls || '');
-      if (s.center) b.style.transform = 'translateX(-50%) scale(0)';
-      b.style.animationDelay = s.delay + 'ms';
-      if (s.center) {
-        // override animation to keep the translate
-        b.style.animation = 'pop-center 360ms cubic-bezier(.18,1.3,.5,1) forwards';
-      }
-      bubbles.appendChild(b);
-    });
-    // inject pop-center keyframes once
-    if (!document.getElementById('pop-center-style')) {
-      const st = document.createElement('style');
-      st.id = 'pop-center-style';
-      st.textContent = `@keyframes pop-center {
-        0% { transform: translateX(-50%) scale(0) translateY(8px); }
-        70% { transform: translateX(-50%) scale(1.08) translateY(-2px); }
-        100% { transform: translateX(-50%) scale(1) translateY(0); }
-      }`;
-      document.head.appendChild(st);
-    }
-    stage.appendChild(bubbles);
-
-    // hearts + confetti
-    const fx = el('div', { class: 'fx' });
-    const colors = ['#ff6b9a','#ffd23a','#7fc46b','#7ec3ff','#e23b3b','#ff8a2a'];
-    for (let i = 0; i < 18; i++) {
-      const h = el('div', { class: 'heart' }, '❤');
-      h.style.left = (Math.random() * 100) + '%';
-      h.style.color = colors[i % colors.length];
-      h.style.animationDelay = (Math.random() * 3) + 's';
-      h.style.animationDuration = (2.8 + Math.random() * 2) + 's';
-      fx.appendChild(h);
-    }
-    for (let i = 0; i < 30; i++) {
-      const c = el('div', { class: 'conf' });
-      c.style.left = (Math.random() * 100) + '%';
-      c.style.background = colors[i % colors.length];
-      c.style.animationDelay = (Math.random() * 3) + 's';
-      c.style.animationDuration = (2.5 + Math.random() * 2.5) + 's';
-      fx.appendChild(c);
-    }
-    stage.appendChild(fx);
-
-    const panel = el('div', { class: 'panel final' });
-    panel.appendChild(el('h2', {}, "We love you SO much, Mom!"));
-    const row = el('div', { class: 'row' });
-    row.appendChild(el('button', { class: 'big', onClick: home }, 'Play another adventure'));
-    panel.appendChild(row);
-
-    const card = el('div', { class: 'card' }, [stage, panel]);
-    app.appendChild(card);
-  }
-
-  // ----- main render -----
-  function render() {
-    if (!state.adventure) { renderIntro(); return; }
-    const list = SCENES[state.adventure];
-    const scene = list[state.sceneIndex];
-    app.innerHTML = '';
-    app.appendChild(renderScene(scene));
-  }
-
-  render();
-})();
+home();
 </script>
 </body>
 </html>
