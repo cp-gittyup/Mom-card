@@ -172,36 +172,57 @@
   @keyframes bob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-4px);} }
 
   /* run cycle */
-  .actor.running .body-rig { animation: runBob 380ms ease-in-out infinite; }
-  .actor.running .leg-r { animation: legR 760ms ease-in-out infinite; transform-origin: 50% 0; }
-  .actor.running .leg-l { animation: legL 760ms ease-in-out infinite; transform-origin: 50% 0; }
-  .actor.running .arm-r { animation: armR 760ms ease-in-out infinite; transform-origin: 50% 0; }
-  .actor.running .arm-l { animation: armL 760ms ease-in-out infinite; transform-origin: 50% 0; }
-  @keyframes runBob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-3px);} }
-  @keyframes legR { 0%,100%{transform:rotate(28deg);} 50%{transform:rotate(-28deg);} }
-  @keyframes legL { 0%,100%{transform:rotate(-28deg);} 50%{transform:rotate(28deg);} }
-  @keyframes armR { 0%,100%{transform:rotate(-30deg);} 50%{transform:rotate(30deg);} }
-  @keyframes armL { 0%,100%{transform:rotate(30deg);} 50%{transform:rotate(-30deg);} }
+  /* All limbs pivot from the joint (top of bbox = shoulder/hip) — fixes
+     arms-fly-off when the SVG group's transform-origin is computed against
+     the parent SVG's viewBox instead of its own bounding box. */
+  .actor .arm-l, .actor .arm-r, .actor .leg-l, .actor .leg-r {
+    transform-box: fill-box;
+    transform-origin: 50% 0;
+  }
+  .actor .head { transform-box: fill-box; transform-origin: 50% 100%; }
+  .actor .body-rig { transform-box: fill-box; transform-origin: 50% 100%; }
 
-  /* cheer */
-  .actor.cheer .arm-r { transform: rotate(-150deg); transform-origin: 50% 0; animation: cheerArmR 700ms ease-in-out infinite alternate; }
-  .actor.cheer .arm-l { transform: rotate(150deg); transform-origin: 50% 0; animation: cheerArmL 700ms ease-in-out infinite alternate; }
-  .actor.cheer .body-rig { animation: jump 700ms ease-in-out infinite; }
-  @keyframes cheerArmR { 0%{transform:rotate(-160deg);} 100%{transform:rotate(-130deg);} }
-  @keyframes cheerArmL { 0%{transform:rotate(160deg);}  100%{transform:rotate(130deg);} }
-  @keyframes jump { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+  .actor.running .body-rig { animation: runBob 380ms ease-in-out infinite; }
+  .actor.running .leg-r { animation: legR 520ms cubic-bezier(.4,0,.6,1) infinite; }
+  .actor.running .leg-l { animation: legL 520ms cubic-bezier(.4,0,.6,1) infinite; }
+  .actor.running .arm-r { animation: armR 520ms cubic-bezier(.4,0,.6,1) infinite; }
+  .actor.running .arm-l { animation: armL 520ms cubic-bezier(.4,0,.6,1) infinite; }
+  @keyframes runBob { 0%,100%{transform:translateY(0) scaleY(1);} 25%{transform:translateY(-4px) scaleY(1.03);} 50%{transform:translateY(0) scaleY(.97);} 75%{transform:translateY(-3px) scaleY(1.02);} }
+  @keyframes legR { 0%,100%{transform:rotate(36deg);} 50%{transform:rotate(-36deg);} }
+  @keyframes legL { 0%,100%{transform:rotate(-36deg);} 50%{transform:rotate(36deg);} }
+  @keyframes armR { 0%,100%{transform:rotate(-40deg);} 50%{transform:rotate(40deg);} }
+  @keyframes armL { 0%,100%{transform:rotate(40deg);} 50%{transform:rotate(-40deg);} }
+
+  /* cheer — squash/stretch jump with arms up */
+  .actor.cheer .arm-r { animation: cheerArmR 600ms ease-in-out infinite alternate; }
+  .actor.cheer .arm-l { animation: cheerArmL 600ms ease-in-out infinite alternate; }
+  .actor.cheer .body-rig { animation: cheerJump 700ms cubic-bezier(.4,0,.5,1) infinite; }
+  .actor.cheer .head { animation: cheerHead 700ms ease-in-out infinite; }
+  @keyframes cheerArmR { 0%{transform:rotate(-170deg);} 100%{transform:rotate(-140deg);} }
+  @keyframes cheerArmL { 0%{transform:rotate(170deg);}  100%{transform:rotate(140deg);} }
+  @keyframes cheerJump {
+    0%   { transform: translateY(0)  scaleY(.92) scaleX(1.06); }
+    25%  { transform: translateY(-6px) scaleY(1.08) scaleX(.95); }
+    50%  { transform: translateY(-16px) scaleY(1.05) scaleX(.98); }
+    75%  { transform: translateY(-6px) scaleY(1.02) scaleX(1.0); }
+    100% { transform: translateY(0)  scaleY(.92) scaleX(1.06); }
+  }
+  @keyframes cheerHead {
+    0%,100% { transform: translateY(0) rotate(-2deg); }
+    50%     { transform: translateY(-2px) rotate(2deg); }
+  }
 
   /* wobble (for Sonny on ice etc.) */
   .actor.wobble { animation: wobble 1.2s ease-in-out infinite; }
   @keyframes wobble { 0%,100%{transform:rotate(-5deg);} 50%{transform:rotate(5deg);} }
 
   /* spin (figure skater) */
-  .actor.spin .body-rig { animation: spinBody 1.6s linear infinite; transform-origin: 50% 60%; }
+  .actor.spin .body-rig { animation: spinBody 1.6s linear infinite; }
   @keyframes spinBody { 0%{transform:scaleX(1);} 25%{transform:scaleX(.2);} 50%{transform:scaleX(-1);} 75%{transform:scaleX(-.2);} 100%{transform:scaleX(1);} }
 
   /* hockey wind-up (manually triggered with .windup class) */
-  .actor.windup .arm-r { animation: hockeyWindup 1.4s ease-in-out forwards; transform-origin: 50% 0; }
-  .actor.windup .arm-l { animation: hockeyWindupL 1.4s ease-in-out forwards; transform-origin: 50% 0; }
+  .actor.windup .arm-r { animation: hockeyWindup 1.4s ease-in-out forwards; }
+  .actor.windup .arm-l { animation: hockeyWindupL 1.4s ease-in-out forwards; }
   @keyframes hockeyWindup { 0%{transform:rotate(-10deg);} 50%{transform:rotate(-110deg);} 70%{transform:rotate(-110deg);} 100%{transform:rotate(60deg);} }
   @keyframes hockeyWindupL { 0%{transform:rotate(10deg);} 50%{transform:rotate(-50deg);} 100%{transform:rotate(40deg);} }
 
