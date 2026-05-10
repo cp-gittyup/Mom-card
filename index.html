@@ -1197,49 +1197,575 @@ function arcBall(stage, ball, shadow, fromXPct, toXPct, durMs, peakLift = 35) {
 }
 
 //////////////////////////////////////////////////////////////
-// PLACEHOLDER GYM + ICE adventures (will be rebuilt next pass)
+// GYM ADVENTURE — American Ninja Warrior obstacle course
 //////////////////////////////////////////////////////////////
+function bgNinja() {
+  return `<svg class="bg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="g-arena" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="#0e1628"/>
+        <stop offset="100%" stop-color="#1f2c4a"/>
+      </linearGradient>
+      <radialGradient id="g-spot1" cx="50%" cy="0%" r="100%">
+        <stop offset="0%" stop-color="rgba(255,200,80,0.45)"/>
+        <stop offset="60%" stop-color="rgba(255,200,80,0)"/>
+      </radialGradient>
+    </defs>
+    <rect width="800" height="600" fill="url(#g-arena)"/>
+    <!-- truss rafters -->
+    <g stroke="#0a1020" stroke-width="2" fill="none" opacity=".7">
+      <path d="M0 60 L800 60"/>
+      ${Array.from({length: 14}).map((_,i)=>`<line x1="${i*60}" y1="60" x2="${i*60+30}" y2="20"/><line x1="${i*60+30}" y1="20" x2="${(i+1)*60}" y2="60"/>`).join('')}
+    </g>
+    <!-- spotlights -->
+    <ellipse cx="200" cy="120" rx="180" ry="220" fill="url(#g-spot1)"/>
+    <ellipse cx="600" cy="120" rx="180" ry="220" fill="url(#g-spot1)"/>
+    <!-- crowd silhouettes -->
+    <g fill="#08111e">
+      <rect y="380" width="800" height="220"/>
+    </g>
+    <g fill="#1a2440" opacity=".95">
+      ${Array.from({length: 26}).map((_,i)=>`<circle cx="${15+i*32}" cy="370" r="14"/><rect x="2+${i*32}" y="380" width="26" height="22" rx="4"/>`).join('')}
+    </g>
+    <!-- water beneath obstacles -->
+    <rect y="520" width="800" height="80" fill="#1d3a6b"/>
+    <g stroke="#3a6cb0" stroke-width="2" fill="none" opacity=".6">
+      <path d="M0 540 Q40 535 80 540 T160 540 T240 540 T320 540 T400 540 T480 540 T560 540 T640 540 T720 540 T800 540"/>
+      <path d="M0 560 Q40 555 80 560 T160 560 T240 560 T320 560 T400 560 T480 560 T560 560 T640 560 T720 560 T800 560"/>
+    </g>
+    <!-- platform under obstacles -->
+    <rect y="500" width="800" height="20" fill="#252b3a" stroke="#0a0e18" stroke-width="2"/>
+    <!-- ANW logo-ish banner -->
+    <rect x="280" y="80" width="240" height="36" fill="#cf2030" stroke="#fff" stroke-width="2"/>
+    <text x="400" y="106" text-anchor="middle" font-family="Impact, sans-serif" font-size="22" fill="#fff" letter-spacing="2">NINJA WARRIOR</text>
+  </svg>`;
+}
+
 async function playGym() {
   app.innerHTML = '';
-  const card = el('div', { class: 'card' });
   const stage = makeStage();
-  stage.style.background = 'linear-gradient(180deg, #cfe7f5 0%, #f1d6b0 100%)';
+  stage.innerHTML = bgNinja();
   stage.appendChild(homeButton());
   stage.appendChild(audioButton());
-  const margot = makeKid('margot', { x: '20%', bottom: '8%' });
-  const luca   = makeKid('luca',   { x: '50%', bottom: '8%' });
-  const sonny  = makeKid('sonny',  { x: '76%', bottom: '8%' });
-  stage.append(margot, luca, sonny);
-  margot.setPose('idle'); luca.setPose('idle'); sonny.setPose('idle');
-  card.append(stage);
-  const panel = makePanel({
-    dialogue: "American Ninja Warrior course coming next — pilot version still being built. Skip to the final cheer for now?",
-    choices: ['Skip to final cheer'],
-    onChoice: () => renderFinal(),
-  });
-  card.append(panel);
+  const panelHost = div('panel-host');
+  const card = el('div', { class: 'card' }, [stage, panelHost]);
   app.appendChild(card);
+
+  // ============ Scene 1: Margot — WARPED WALL ============
+  // Build the warped wall on the right side
+  const wall = el('div');
+  wall.style.cssText = 'position:absolute; right:6%; bottom:16%; width:32%; height:62%; pointer-events:none;';
+  wall.innerHTML = `<svg viewBox="0 0 200 320" preserveAspectRatio="xMidYEnd meet" style="width:100%;height:100%;overflow:visible">
+    <!-- curved warped wall -->
+    <path d="M0 320 L0 280 Q0 60 200 30 L200 320 Z" fill="#1a2138" stroke="#0a0e18" stroke-width="3"/>
+    <path d="M0 280 Q0 80 200 50" fill="none" stroke="#cf2030" stroke-width="6"/>
+    <!-- top platform / landing -->
+    <rect x="180" y="20" width="40" height="14" fill="#2a3554" stroke="#0a0e18" stroke-width="2"/>
+    <!-- grip stripes -->
+    ${Array.from({length: 8}).map((_,i)=>`<line x1="${20+i*22}" y1="${280 - i*32}" x2="${30+i*22}" y2="${280 - i*32}" stroke="#cf2030" stroke-width="3" opacity=".5"/>`).join('')}
+  </svg>`;
+  stage.appendChild(wall);
+
+  // sign label
+  const lbl = el('div'); lbl.style.cssText = 'position:absolute; top:14%; left:6%; color:#fff; font-size:14px; opacity:.8;';
+  lbl.textContent = 'OBSTACLE 1: WARPED WALL';
+  stage.appendChild(lbl);
+
+  // place actors
+  const margot = makeKid('margot', { x: '8%',  bottom: '20%' });
+  const luca   = makeKid('luca',   { x: '20%', bottom: '20%' });
+  const sonny  = makeKid('sonny',  { x: '32%', bottom: '20%' });
+  margot.style.width = '11%'; luca.style.width = '10%'; sonny.style.width = '9%';
+  stage.append(margot, luca, sonny);
+
+  speech(stage, "Margot's up first!", '8%', '20%');
+  await delay(900);
+
+  const choice1 = await new Promise(res => {
+    panelHost.replaceChildren(makePanel({
+      dialogue: "Margot stares down the Warped Wall. How does she attack it?",
+      choices: ['Run and climb!', 'Charge up first'],
+      onChoice: i => res(i),
+    }));
+  });
+  panelHost.replaceChildren();
+
+  if (choice1 === 1) {
+    // pre-charge: deep breath, fists clench
+    margot.setPose('cheer');
+    Audio.pop();
+    speech(stage, "HRRRGH!", '8%', '22%', 'small');
+    await delay(800);
+  }
+
+  // run toward wall, then "climb"
+  margot.setPose('running');
+  await margot.moveTo('46%', { duration: 1100 });
+  Audio.kick();
+  // climbing animation: rise + slide right
+  margot.setPose('idle');
+  margot.style.transition = 'left 900ms cubic-bezier(.2,.8,.4,1), bottom 900ms cubic-bezier(.2,.8,.4,1)';
+  margot.style.left = '70%';
+  margot.style.bottom = '64%';
+  // body rotates slightly during climb
+  margot.querySelector('.body-rig').animate(
+    [{ transform:'rotate(0)'}, {transform:'rotate(20deg)'}, {transform:'rotate(0)'}],
+    { duration: 900, fill: 'forwards' }
+  );
+  speedlines(stage, '60%', '50%', 6);
+  await delay(950);
+  // stick top, throw arms up
+  margot.setPose('cheer');
+  Audio.cheer();
+  speech(stage, 'TOP!', '70%', '12%', 'big');
+  await delay(1100);
+
+  // ============ Scene 2: Luca — FLOATING STEPS ============
+  // remove wall, swap obstacle
+  wall.remove(); lbl.remove();
+  // reset margot to idle on left
+  margot.style.transition = 'none';
+  margot.style.left = '4%'; margot.style.bottom = '20%';
+  margot.setPose('idle');
+
+  const lbl2 = el('div'); lbl2.style.cssText = 'position:absolute; top:14%; left:6%; color:#fff; font-size:14px; opacity:.8;';
+  lbl2.textContent = 'OBSTACLE 2: QUINTUPLE STEPS';
+  stage.appendChild(lbl2);
+
+  // 5 angled steps
+  const steps = el('div');
+  steps.style.cssText = 'position:absolute; left:25%; bottom:20%; width:65%; height:35%; pointer-events:none;';
+  steps.innerHTML = `<svg viewBox="0 0 520 200" preserveAspectRatio="xMidYEnd meet" style="width:100%;height:100%;overflow:visible">
+    <g stroke="#0a0e18" stroke-width="2">
+      <polygon points="20,180  90,170  110,200  10,200" fill="#cf2030"/>
+      <polygon points="120,160 200,150 220,190 110,190" fill="#cf2030" transform="translate(0,-2)"/>
+      <polygon points="240,150 320,140 340,180 230,180" fill="#cf2030" transform="translate(0,-4)"/>
+      <polygon points="360,160 440,150 460,190 350,190" fill="#cf2030" transform="translate(0,-2)"/>
+      <polygon points="470,180 510,170 510,200 460,200" fill="#cf2030"/>
+    </g>
+  </svg>`;
+  stage.appendChild(steps);
+
+  await delay(400);
+  const choice2 = await new Promise(res => {
+    panelHost.replaceChildren(makePanel({
+      dialogue: "Luca's turn! He's eyeing the Quintuple Steps.",
+      choices: ['Hop hop hop!', 'Ninja-flip across!'],
+      onChoice: i => res(i),
+    }));
+  });
+  panelHost.replaceChildren();
+
+  // luca jumps across the steps in 5 hops
+  luca.style.bottom = '20%';
+  luca.style.left = '22%';
+  luca.setPose('idle');
+  const stepXs = ['28%', '38%', '50%', '64%', '76%'];
+  const stepYs = ['28%', '34%', '36%', '34%', '28%'];
+  for (let i = 0; i < stepXs.length; i++) {
+    Audio.trap();
+    if (choice2 === 1) {
+      // ninja flip — body rotates 360
+      luca.querySelector('.body-rig').animate(
+        [{transform:'rotate(0)'},{transform:'rotate(360deg)'}],
+        { duration: 320, fill: 'forwards', easing: 'ease-out' }
+      );
+    } else {
+      // hop bob
+      luca.querySelector('.body-rig').animate(
+        [{transform:'translateY(0)'},{transform:'translateY(-18px)'},{transform:'translateY(0)'}],
+        { duration: 320, fill: 'forwards' }
+      );
+    }
+    luca.style.transition = 'left 320ms ease-out, bottom 320ms ease-out';
+    luca.style.left = stepXs[i];
+    luca.style.bottom = stepYs[i];
+    speedlines(stage, stepXs[i], '40%', 2);
+    await delay(330);
+  }
+  Audio.cheer();
+  luca.setPose('cheer');
+  speech(stage, 'NAILED IT!', '60%', '14%', 'big');
+  await delay(1100);
+
+  // ============ Scene 3: Sonny — TODDLER COURSE ============
+  steps.remove(); lbl2.remove();
+  margot.style.transition = 'none'; luca.style.transition = 'none';
+  margot.style.left = '4%';  margot.style.bottom = '20%'; margot.setPose('cheer');
+  luca.style.left   = '14%'; luca.style.bottom   = '20%'; luca.setPose('cheer');
+
+  const lbl3 = el('div'); lbl3.style.cssText = 'position:absolute; top:14%; left:6%; color:#fff; font-size:14px; opacity:.8;';
+  lbl3.textContent = 'OBSTACLE 3: MINI-NINJA';
+  stage.appendChild(lbl3);
+
+  // toddler obstacle: small foam ramp + a foam block to climb on
+  const foam = el('div');
+  foam.style.cssText = 'position:absolute; right:10%; bottom:18%; width:40%; height:30%; pointer-events:none;';
+  foam.innerHTML = `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYEnd meet" style="width:100%;height:100%;overflow:visible">
+    <!-- ramp -->
+    <polygon points="0,180 120,180 80,80" fill="#ffd23a" stroke="#a87b00" stroke-width="3"/>
+    <polygon points="80,80 120,180 200,180 200,60" fill="#ff8a2a" stroke="#a14400" stroke-width="3"/>
+    <!-- block -->
+    <rect x="220" y="100" width="80" height="80" fill="#cf2030" stroke="#700a0a" stroke-width="3"/>
+    <text x="260" y="148" text-anchor="middle" font-family="Impact, sans-serif" font-size="28" fill="#fff">⭐</text>
+  </svg>`;
+  stage.appendChild(foam);
+
+  sonny.style.transition = 'none';
+  sonny.style.left = '40%'; sonny.style.bottom = '20%';
+  sonny.setPose('wobble');
+
+  await delay(400);
+  const choice3 = await new Promise(res => {
+    panelHost.replaceChildren(makePanel({
+      dialogue: "Tiny ninja Sonny waddles up to the foam course!",
+      choices: ['Cheer him on!', 'Help him up the ramp'],
+      onChoice: i => res(i),
+    }));
+  });
+  panelHost.replaceChildren();
+
+  if (choice3 === 1) {
+    // Margot runs over to "help"
+    margot.setPose('running');
+    margot.style.transition = 'left 700ms ease';
+    margot.style.left = '36%';
+    await delay(700);
+    margot.setPose('idle');
+    speech(stage, "I got you, buddy!", '32%', '18%', 'small');
+    await delay(700);
+  }
+
+  // sonny waddles up the ramp
+  sonny.setPose('wobble');
+  sonny.style.transition = 'left 1200ms ease-out, bottom 1200ms ease-out';
+  sonny.style.left = '64%'; sonny.style.bottom = '38%';
+  Audio.trap();
+  await delay(1300);
+  // little fall onto bum
+  sonny.querySelector('.body-rig').animate(
+    [{transform:'rotate(0)'},{transform:'rotate(20deg) translateY(8px)'},{transform:'rotate(0) translateY(0)'}],
+    { duration: 600, fill: 'forwards' }
+  );
+  Audio.pop();
+  speech(stage, 'oof!', '64%', '24%', 'small');
+  await delay(700);
+  // climbs onto the block
+  sonny.style.transition = 'left 800ms ease, bottom 800ms ease';
+  sonny.style.left = '78%'; sonny.style.bottom = '46%';
+  await delay(900);
+  Audio.cheer();
+  sonny.setPose('cheer');
+  speech(stage, 'I DID IT!', '74%', '24%', 'big');
+  await delay(1300);
+
+  // confetti
+  const fx = el('div', { class: 'fx' });
+  const colors = ['#ff6b9a','#ffd23a','#7fc46b','#7ec3ff','#e23b3b','#ff8a2a'];
+  for (let i = 0; i < 20; i++) {
+    const c = el('div', { class: 'conf' });
+    c.style.left = (Math.random() * 100) + '%';
+    c.style.background = colors[i % colors.length];
+    c.style.animationDelay = (Math.random() * 1) + 's';
+    c.style.animationDuration = (2.4 + Math.random() * 1.6) + 's';
+    fx.appendChild(c);
+  }
+  stage.appendChild(fx);
+
+  panelHost.replaceChildren(makePanel({
+    dialogue: "All three crushed the course! Time to celebrate with Mom!",
+    choices: ['Run to Mom! ❤'],
+    onChoice: () => renderFinal(),
+  }));
+}
+
+//////////////////////////////////////////////////////////////
+// ICE & HOCKEY — proper choreography
+//////////////////////////////////////////////////////////////
+function bgRink() {
+  return `<svg class="bg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="800" height="600" fill="#dfeef7"/>
+    <!-- crowd -->
+    <rect y="200" width="800" height="180" fill="#3a4868"/>
+    <g fill="#22304e">
+      ${Array.from({length: 26}).map((_,i)=>`<circle cx="${15+i*32}" cy="220" r="14"/><rect x="2+${i*32}" y="232" width="26" height="20" rx="3"/>`).join('')}
+    </g>
+    <!-- waving banners -->
+    <g fill="#ff6b9a">
+      <rect x="120" y="200" width="40" height="26" transform="rotate(-8 140 213)"/>
+      <rect x="500" y="195" width="44" height="26" transform="rotate(6 522 208)"/>
+    </g>
+    <!-- boards -->
+    <rect y="372" width="800" height="14" fill="#fff" stroke="#222" stroke-width="2"/>
+    <rect y="384" width="800" height="6" fill="#cf2030"/>
+    <!-- ice surface -->
+    <rect y="392" width="800" height="208" fill="url(#g-ice)"/>
+    <!-- rink markings -->
+    <line x1="0" y1="430" x2="800" y2="430" stroke="#cf6262" stroke-width="3" opacity=".55"/>
+    <line x1="400" y1="392" x2="400" y2="600" stroke="#3070b8" stroke-width="3" opacity=".5"/>
+    <circle cx="400" cy="500" r="60" stroke="#3070b8" stroke-width="3" fill="none" opacity=".55"/>
+    <circle cx="180" cy="500" r="40" stroke="#cf6262" stroke-width="2" fill="none" opacity=".55"/>
+    <circle cx="620" cy="500" r="40" stroke="#cf6262" stroke-width="2" fill="none" opacity=".55"/>
+    <!-- ice gleam -->
+    <ellipse cx="400" cy="450" rx="500" ry="20" fill="#fff" opacity=".15"/>
+  </svg>`;
+}
+
+function hockeyGoal(x, y, w) {
+  // returns an absolutely-positioned SVG goal element
+  const g = el('div');
+  g.style.cssText = `position:absolute; left:${x}; bottom:${y}; width:${w}; pointer-events:none;`;
+  g.innerHTML = `<svg viewBox="0 0 200 160" style="width:100%;height:auto;overflow:visible">
+    <!-- net depth -->
+    <path d="M30 30 L170 30 L150 160 L50 160 Z" fill="rgba(255,255,255,0.4)" stroke="#222" stroke-width="3"/>
+    <!-- frame -->
+    <rect x="20" y="20" width="160" height="14" fill="#cf2030" stroke="#222" stroke-width="3"/>
+    <rect x="14" y="20" width="14" height="140" fill="#cf2030" stroke="#222" stroke-width="3"/>
+    <rect x="172" y="20" width="14" height="140" fill="#cf2030" stroke="#222" stroke-width="3"/>
+    <!-- net mesh -->
+    <g stroke="#fff" stroke-width="1.5" opacity=".75">
+      ${Array.from({length: 10}).map((_,i)=>`<line x1="${34+i*14}" y1="34" x2="${54+i*12}" y2="158"/>`).join('')}
+      ${Array.from({length: 7}).map((_,i)=>`<line x1="34" y1="${44+i*16}" x2="166" y2="${44+i*16}"/>`).join('')}
+    </g>
+  </svg>`;
+  return g;
+}
+
+function hockeyStick(opts = {}) {
+  // SVG hockey stick: shaft, blade, taped grip
+  const wrap = el('div');
+  const len = opts.len || 140;
+  wrap.style.cssText = `position:absolute; left:${opts.left||'30%'}; bottom:${opts.bottom||'18%'}; width:${len}px; height:${len*1.2}px; transform-origin: 90% 90%; pointer-events:none; ${opts.transform ? 'transform:'+opts.transform : ''};`;
+  wrap.innerHTML = `<svg viewBox="0 0 100 130" style="width:100%;height:100%;overflow:visible">
+    <!-- shaft -->
+    <rect x="44" y="0" width="10" height="100" fill="#2c2417" stroke="#000" stroke-width="1.5" rx="2"/>
+    <!-- taped grip top -->
+    <rect x="42" y="0" width="14" height="20" fill="#1a1a1a" stroke="#000" stroke-width="1"/>
+    <g stroke="#fff" stroke-width="0.6" opacity=".5">
+      <line x1="42" y1="3" x2="56" y2="6"/>
+      <line x1="42" y1="9" x2="56" y2="12"/>
+      <line x1="42" y1="15" x2="56" y2="18"/>
+    </g>
+    <!-- blade (curved hockey blade) -->
+    <path d="M44 100 L54 100 L78 122 Q80 126 76 128 L40 128 Q36 126 38 122 Z" fill="#3a2a18" stroke="#000" stroke-width="1.5"/>
+    <!-- white tape on blade -->
+    <path d="M44 110 L54 110 L72 122 L40 122 Z" fill="#f0f0f0" opacity=".75"/>
+  </svg>`;
+  return wrap;
 }
 
 async function playIce() {
   app.innerHTML = '';
-  const card = el('div', { class: 'card' });
   const stage = makeStage();
-  stage.style.background = 'linear-gradient(180deg, #dfeef7 0%, #f5fbff 100%)';
+  stage.innerHTML = bgRink();
   stage.appendChild(homeButton());
   stage.appendChild(audioButton());
-  const margot = makeKid('margot', { x: '20%', bottom: '8%' });
-  const luca   = makeKid('luca',   { x: '50%', bottom: '8%' });
-  const sonny  = makeKid('sonny',  { x: '76%', bottom: '8%' });
-  stage.append(margot, luca, sonny);
-  card.append(stage);
-  const panel = makePanel({
-    dialogue: "Ice & Hockey rebuild coming next — pilot version still being built. Skip to the final cheer for now?",
-    choices: ['Skip to final cheer'],
-    onChoice: () => renderFinal(),
-  });
-  card.append(panel);
+  const panelHost = div('panel-host');
+  const card = el('div', { class: 'card' }, [stage, panelHost]);
   app.appendChild(card);
+
+  // place actors on the ice
+  const margot = makeKid('margot', { x: '40%', bottom: '14%' });
+  const luca   = makeKid('luca',   { x: '8%',  bottom: '14%' });
+  const sonny  = makeKid('sonny',  { x: '74%', bottom: '14%' });
+  margot.style.width = '13%'; luca.style.width = '12%'; sonny.style.width = '10%';
+  stage.append(margot, luca, sonny);
+  // sonny wobbling on ice
+  sonny.setPose('wobble');
+
+  // ============ Scene 1: Margot — figure skating ============
+  speech(stage, 'Look, Mom!', '38%', '20%');
+  await delay(800);
+  const choice1 = await new Promise(res => {
+    panelHost.replaceChildren(makePanel({
+      dialogue: "Margot glides into the center in her sparkly red dress. Her move?",
+      choices: ['Spin like a top!', 'Strike a pose'],
+      onChoice: i => res(i),
+    }));
+  });
+  panelHost.replaceChildren();
+
+  if (choice1 === 0) {
+    margot.setPose('spin');
+    Audio.whistle();
+    speedlines(stage, '40%', '36%', 8);
+    await delay(2400);
+    margot.setPose('idle');
+    Audio.cheer();
+    await delay(500);
+  } else {
+    // pose: arms up dramatically, body holds
+    margot.querySelector('.arm-l').animate([{transform:'rotate(0)'},{transform:'rotate(160deg)'}], {duration:500, fill:'forwards'});
+    margot.querySelector('.arm-r').animate([{transform:'rotate(0)'},{transform:'rotate(-160deg)'}], {duration:500, fill:'forwards'});
+    margot.querySelector('.leg-r').animate([{transform:'rotate(0)'},{transform:'rotate(40deg)'}], {duration:500, fill:'forwards'});
+    Audio.pop();
+    await delay(700);
+    Audio.cheer();
+    speech(stage, '✨ tada! ✨', '38%', '14%');
+    await delay(1100);
+  }
+
+  // ============ Scene 2: Luca — hockey shot with proper stick ============
+  // reset margot's arms
+  margot.querySelector('.arm-l').animate([{transform:'rotate(160deg)'},{transform:'rotate(0)'}], {duration:300, fill:'forwards'});
+  margot.querySelector('.arm-r').animate([{transform:'rotate(-160deg)'},{transform:'rotate(0)'}], {duration:300, fill:'forwards'});
+  margot.querySelector('.leg-r').animate([{transform:'rotate(40deg)'},{transform:'rotate(0)'}], {duration:300, fill:'forwards'});
+  margot.style.transition = 'left .6s ease'; margot.style.left = '4%';
+
+  // add goal on right side
+  const goal = hockeyGoal('82%', '18%', '16%');
+  stage.appendChild(goal);
+  // luca moves to mid-rink with stick
+  luca.style.transition = 'left .8s ease'; luca.style.left = '28%';
+  await delay(820);
+
+  // attach hockey stick to luca's right hand area
+  const stick = hockeyStick({ left: '34%', bottom: '14%', len: 110, transform: 'rotate(20deg)' });
+  stage.appendChild(stick);
+  // puck at blade
+  const puck = el('div', { class: 'puck' });
+  const puckShadow = el('div', { class: 'puck-shadow' });
+  function placePuck(xPct, yPct) {
+    puck.style.left = xPct; puck.style.top = yPct;
+    puckShadow.style.left = xPct; puckShadow.style.top = '78%';
+  }
+  stage.append(puckShadow, puck);
+  placePuck('41%', '74%');
+
+  await delay(400);
+
+  const choice2 = await new Promise(res => {
+    panelHost.replaceChildren(makePanel({
+      dialogue: "Luca squares up to the goal, stick taped and ready. How's he taking it?",
+      choices: ['SLAPSHOT!', 'Wrist shot'],
+      onChoice: i => res(i),
+    }));
+  });
+  panelHost.replaceChildren();
+
+  if (choice2 === 0) {
+    // SLAPSHOT: big wind-up — stick rotates back
+    speech(stage, 'WIND UP!', '24%', '18%', 'small');
+    stick.style.transition = 'transform 600ms ease-out';
+    stick.style.transform = 'rotate(-95deg)';
+    luca.querySelector('.arm-r').animate([{transform:'rotate(-10deg)'},{transform:'rotate(-110deg)'}], {duration:600, fill:'forwards'});
+    luca.querySelector('.arm-l').animate([{transform:'rotate(10deg)'},{transform:'rotate(-50deg)'}], {duration:600, fill:'forwards'});
+    await delay(650);
+    // SLAP — fast follow-through
+    Audio.slap();
+    stick.style.transition = 'transform 220ms cubic-bezier(.2,.8,.4,1)';
+    stick.style.transform = 'rotate(70deg)';
+    luca.querySelector('.arm-r').animate([{transform:'rotate(-110deg)'},{transform:'rotate(60deg)'}], {duration:220, fill:'forwards'});
+    luca.querySelector('.arm-l').animate([{transform:'rotate(-50deg)'},{transform:'rotate(40deg)'}], {duration:220, fill:'forwards'});
+    speedlines(stage, '40%', '70%', 6);
+  } else {
+    // wrist shot: small wind, quick snap
+    speech(stage, 'snap!', '30%', '20%', 'small');
+    stick.style.transition = 'transform 250ms ease-out';
+    stick.style.transform = 'rotate(-30deg)';
+    await delay(280);
+    Audio.kick();
+    stick.style.transition = 'transform 180ms cubic-bezier(.2,.8,.4,1)';
+    stick.style.transform = 'rotate(50deg)';
+    luca.querySelector('.arm-r').animate([{transform:'rotate(-30deg)'},{transform:'rotate(40deg)'}], {duration:180, fill:'forwards'});
+  }
+
+  // puck flies low and fast to the goal
+  await arcPuck(stage, puck, puckShadow, 41, 86, choice2 === 0 ? 420 : 320, choice2 === 0 ? 18 : 8);
+  Audio.net();
+  // flash net
+  const flash = el('div'); Object.assign(flash.style, { position:'absolute', left:'82%', bottom:'18%', width:'16%', height:'40%', background:'rgba(255,255,255,0.55)', borderRadius:'10px' });
+  stage.appendChild(flash);
+  setTimeout(() => flash.remove(), 200);
+  Audio.airhorn();
+  speech(stage, 'GOOOAL!', '60%', '12%', 'big');
+  await delay(1300);
+
+  // ============ Scene 3: Sonny on ice ============
+  // reset luca arms, remove stick + puck
+  luca.querySelector('.arm-r').animate([{transform:'rotate(60deg)'},{transform:'rotate(0)'}], {duration:300, fill:'forwards'});
+  luca.querySelector('.arm-l').animate([{transform:'rotate(40deg)'},{transform:'rotate(0)'}], {duration:300, fill:'forwards'});
+  stick.remove(); puck.remove(); puckShadow.remove(); goal.remove();
+
+  const choice3 = await new Promise(res => {
+    panelHost.replaceChildren(makePanel({
+      dialogue: "Sonny's still wobbling on the ice in his tiny skates...",
+      choices: ['Cheer him on!', 'Skate over to help'],
+      onChoice: i => res(i),
+    }));
+  });
+  panelHost.replaceChildren();
+
+  if (choice3 === 1) {
+    margot.setPose('running');
+    luca.setPose('running');
+    margot.style.transition = 'left .9s ease'; margot.style.left = '54%';
+    luca.style.transition   = 'left .9s ease'; luca.style.left   = '64%';
+    await delay(950);
+    margot.setPose('idle'); luca.setPose('idle');
+    speech(stage, "We got you!", '50%', '22%', 'small');
+    await delay(700);
+  }
+
+  // sonny wobbles, falls, gets up, cheers
+  sonny.setPose('wobble');
+  await delay(700);
+  // fall onto bum
+  sonny.querySelector('.body-rig').animate(
+    [{transform:'rotate(0)'},{transform:'rotate(20deg) translateY(10px)'}],
+    { duration: 350, fill: 'forwards' }
+  );
+  Audio.pop();
+  speech(stage, 'whee!', '70%', '24%', 'small');
+  await delay(700);
+  // get up + cheer
+  sonny.querySelector('.body-rig').animate(
+    [{transform:'rotate(20deg) translateY(10px)'},{transform:'rotate(0) translateY(0)'}],
+    { duration: 350, fill: 'forwards' }
+  );
+  await delay(380);
+  sonny.setPose('cheer');
+  Audio.cheer();
+  speech(stage, 'TA-DAA!', '68%', '14%', 'big');
+  await delay(1300);
+
+  // confetti
+  const fx = el('div', { class: 'fx' });
+  const colors = ['#ff6b9a','#ffd23a','#7fc46b','#7ec3ff','#e23b3b','#ff8a2a'];
+  for (let i = 0; i < 20; i++) {
+    const c = el('div', { class: 'conf' });
+    c.style.left = (Math.random() * 100) + '%';
+    c.style.background = colors[i % colors.length];
+    c.style.animationDelay = (Math.random() * 1) + 's';
+    c.style.animationDuration = (2.4 + Math.random() * 1.6) + 's';
+    fx.appendChild(c);
+  }
+  stage.appendChild(fx);
+
+  panelHost.replaceChildren(makePanel({
+    dialogue: "What a team! Now let's go tell Mom!",
+    choices: ['Run to Mom! ❤'],
+    onChoice: () => renderFinal(),
+  }));
+}
+
+function arcPuck(stage, puck, shadow, fromXPct, toXPct, durMs, lift) {
+  const start = performance.now();
+  const startTop = 74;
+  return new Promise(resolve => {
+    function tick(now) {
+      const t = Math.min(1, (now - start) / durMs);
+      const x = fromXPct + (toXPct - fromXPct) * t;
+      const y = startTop - Math.sin(Math.PI * t) * lift;
+      puck.style.left = x + '%'; puck.style.top = y + '%';
+      shadow.style.left = x + '%'; shadow.style.top = '78%';
+      shadow.style.opacity = 0.4 - 0.2 * Math.sin(Math.PI * t);
+      shadow.style.transform = `scale(${1 - 0.4 * Math.sin(Math.PI * t)})`;
+      if (Math.random() < 0.4) speedlines(stage, x + '%', (y - 1) + '%', 1);
+      if (t < 1) requestAnimationFrame(tick); else resolve();
+    }
+    requestAnimationFrame(tick);
+  });
 }
 
 //////////////////////////////////////////////////////////////
