@@ -389,6 +389,10 @@
       <stop offset="0%" stop-color="rgba(255,255,210,0.5)"/>
       <stop offset="80%" stop-color="rgba(255,255,210,0)"/>
     </radialGradient>
+    <!-- circular clip mask for photo heads — bbox-relative so it works on any sized image -->
+    <clipPath id="clip-circle" clipPathUnits="objectBoundingBox">
+      <circle cx="0.5" cy="0.5" r="0.5"/>
+    </clipPath>
   </defs>
 </svg>
 
@@ -798,192 +802,22 @@ function torsoFor(kid, c) {
 }
 
 function headFor(kid) {
-  // Each head includes face, eyes, blush, mouth, hair
-  if (kid === 'margot') return `
-    <g class="head" transform="translate(100 50)">
-      <!-- back hair: cap-shaped, ends at jaw — no pigtails into the body -->
-      <path d="M-44 -18 Q-58 14 -50 44 Q-30 50 -10 48 Q10 50 30 48 Q50 50 50 22 Q56 -2 36 -28 Q0 -42 -36 -28 Q-46 -14 -44 -18 Z"
-            fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1.4"/>
-      <!-- face -->
-      <ellipse cx="0" cy="2" rx="36" ry="42" fill="url(#g-skin)" stroke="#2a2730" stroke-width="2.5"/>
-      <!-- center-parted wavy bangs sweeping to both sides -->
-      <path d="M-36 -22 Q-22 -44 -2 -38 L0 -22 Q-12 -16 -22 -18 Q-32 -14 -36 -22 Z"
-            fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1.4"/>
-      <path d="M36 -22 Q22 -44 2 -38 L0 -22 Q12 -16 22 -18 Q32 -14 36 -22 Z"
-            fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1.4"/>
-      <!-- subtle wave detail on bangs -->
-      <path d="M-30 -28 Q-18 -32 -6 -28" stroke="#c8973f" stroke-width="1.4" fill="none" opacity=".6"/>
-      <path d="M30 -28 Q18 -32 6 -28" stroke="#c8973f" stroke-width="1.4" fill="none" opacity=".6"/>
-      <!-- side wisps framing face, ending at chin -->
-      <path d="M-40 -2 Q-50 22 -44 42 Q-38 32 -34 14 Z" fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1"/>
-      <path d="M40 -2 Q50 22 44 42 Q38 32 34 14 Z" fill="url(#g-hair-margot)" stroke="#9a7430" stroke-width="1"/>
-      <!-- two soft curl tips at jaw, suggesting wave -->
-      <path d="M-44 38 q-4 10 6 14 q6 -2 6 -10 q-4 -6 -12 -4 z" fill="#e7be63"/>
-      <path d="M44 38 q4 10 -6 14 q-6 -2 -6 -10 q4 -6 12 -4 z" fill="#e7be63"/>
-      <!-- eyebrows -->
-      <path d="M-22 -10 Q-14 -14 -6 -10" stroke="#7e5a30" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path d="M22 -10 Q14 -14 6 -10"   stroke="#7e5a30" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <!-- eyes (almond) -->
-      <g class="eyes-normal">
-        <ellipse cx="-14" cy="2" rx="6" ry="7" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <ellipse cx="14"  cy="2" rx="6" ry="7" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <circle cx="-13" cy="3" r="3.6" fill="#2c6fb0"/>
-        <circle cx="15"  cy="3" r="3.6" fill="#2c6fb0"/>
-        <circle cx="-13" cy="3" r="1.8" fill="#0d2842"/>
-        <circle cx="15"  cy="3" r="1.8" fill="#0d2842"/>
-        <circle cx="-11.6" cy="1.4" r="1.1" fill="#fff"/>
-        <circle cx="16.4"  cy="1.4" r="1.1" fill="#fff"/>
-        <path d="M-20 -3 Q-17 -6 -14 -4" stroke="#3a2410" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-        <path d="M20 -3 Q17 -6 14 -4"   stroke="#3a2410" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-      </g>
-      <!-- happy closed eyes (^^) -->
-      <g class="eyes-closed">
-        <path d="M-20 0 Q-14 -6 -8 0"  stroke="#3a2410" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <path d="M8 0 Q14 -6 20 0"     stroke="#3a2410" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      </g>
-      <!-- wide eyes (surprise) -->
-      <g class="eyes-wide">
-        <circle cx="-14" cy="2" r="8" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <circle cx="14"  cy="2" r="8" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <circle cx="-13" cy="3" r="4" fill="#2c6fb0"/>
-        <circle cx="15"  cy="3" r="4" fill="#2c6fb0"/>
-        <circle cx="-13" cy="3" r="2" fill="#0d2842"/>
-        <circle cx="15"  cy="3" r="2" fill="#0d2842"/>
-      </g>
-      <!-- cheeks -->
-      <ellipse cx="-22" cy="14" rx="6" ry="3.5" fill="#ff9bb3" opacity=".7"/>
-      <ellipse cx="22"  cy="14" rx="6" ry="3.5" fill="#ff9bb3" opacity=".7"/>
-      <!-- nose -->
-      <path d="M-2 4 Q0 14 4 14" stroke="#c47e58" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-      <!-- mouths -->
-      <g class="mouth-closed">
-        <path d="M-9 22 Q0 30 9 22" stroke="#a83a4a" stroke-width="2" fill="#ff7b8e" stroke-linejoin="round"/>
-        <path d="M-7 23 Q0 26 7 23" stroke="none" fill="#fff" opacity=".5"/>
-      </g>
-      <g class="mouth-open">
-        <ellipse cx="0" cy="24" rx="6" ry="5" fill="#5a1820" stroke="#2a2730" stroke-width="1.5"/>
-        <path d="M-5 22 Q0 20 5 22" stroke="none" fill="#fff" opacity=".7"/>
-      </g>
-      <g class="mouth-wide">
-        <path d="M-12 20 Q0 34 12 20 Q0 26 -12 20 Z" fill="#5a1820" stroke="#2a2730" stroke-width="1.8"/>
-        <path d="M-8 21 Q0 25 8 21" stroke="none" fill="#fff" opacity=".6"/>
-        <ellipse cx="0" cy="29" rx="3" ry="1.5" fill="#ff5a78" opacity=".7"/>
-      </g>
-    </g>`;
-
-  if (kid === 'luca') return `
-    <g class="head" transform="translate(100 50)">
-      <!-- face: slightly rounder -->
-      <ellipse cx="0" cy="2" rx="37" ry="40" fill="url(#g-skin)" stroke="#2a2730" stroke-width="2.5"/>
-      <!-- hair cap: short, neat, with a clear part -->
-      <path d="M-34 -14 Q-36 -38 -4 -44 Q24 -42 36 -20 L36 -8 Q26 -16 14 -14 Q4 -10 -6 -14 Q-18 -10 -28 -10 Q-32 -10 -34 -14 Z"
-            fill="url(#g-hair-luca)" stroke="#7e5418" stroke-width="1.6"/>
-      <!-- side-swept fringe brushed to viewer's right (his left) -->
-      <path d="M-26 -28 Q-4 -40 22 -34 Q34 -28 32 -16 Q24 -22 14 -20 Q4 -16 -6 -20 Q-18 -22 -26 -18 Q-30 -22 -26 -28 Z"
-            fill="url(#g-hair-luca)" stroke="#7e5418" stroke-width="1.4"/>
-      <!-- fringe wisps streaks -->
-      <path d="M-14 -28 Q4 -34 18 -28" stroke="#7e5418" stroke-width="1" fill="none" opacity=".7"/>
-      <path d="M-4 -22 Q12 -28 26 -22" stroke="#a47a3c" stroke-width="1" fill="none" opacity=".5"/>
-      <!-- sideburns/short sides -->
-      <path d="M-34 -14 Q-32 -2 -30 6 L-36 6 Z" fill="url(#g-hair-luca)"/>
-      <path d="M36 -14 Q34 -2 32 6 L38 6 Z" fill="url(#g-hair-luca)"/>
-      <!-- eyebrows -->
-      <path d="M-22 -10 Q-14 -14 -6 -10" stroke="#8a6432" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-      <path d="M22 -10 Q14 -14 6 -10"   stroke="#8a6432" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-      <!-- eyes -->
-      <g class="eyes-normal">
-        <ellipse cx="-13" cy="2" rx="5.5" ry="6.5" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <ellipse cx="13"  cy="2" rx="5.5" ry="6.5" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <circle cx="-12" cy="3" r="3.2" fill="#2c6fb0"/>
-        <circle cx="14"  cy="3" r="3.2" fill="#2c6fb0"/>
-        <circle cx="-12" cy="3" r="1.6" fill="#0d2842"/>
-        <circle cx="14"  cy="3" r="1.6" fill="#0d2842"/>
-        <circle cx="-10.8" cy="1.6" r="1" fill="#fff"/>
-        <circle cx="15.2"  cy="1.6" r="1" fill="#fff"/>
-      </g>
-      <g class="eyes-closed">
-        <path d="M-19 0 Q-13 -5 -7 0"  stroke="#5e4424" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-        <path d="M7 0 Q13 -5 19 0"     stroke="#5e4424" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-      </g>
-      <g class="eyes-wide">
-        <circle cx="-13" cy="2" r="7.5" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <circle cx="13"  cy="2" r="7.5" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <circle cx="-12" cy="3" r="3.6" fill="#2c6fb0"/>
-        <circle cx="14"  cy="3" r="3.6" fill="#2c6fb0"/>
-        <circle cx="-12" cy="3" r="1.8" fill="#0d2842"/>
-        <circle cx="14"  cy="3" r="1.8" fill="#0d2842"/>
-      </g>
-      <ellipse cx="-22" cy="14" rx="5.5" ry="3" fill="#ff9bb3" opacity=".7"/>
-      <ellipse cx="22"  cy="14" rx="5.5" ry="3" fill="#ff9bb3" opacity=".7"/>
-      <path d="M-2 4 Q0 12 4 12" stroke="#c47e58" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-      <g class="mouth-closed">
-        <path d="M-8 22 Q0 28 8 22" stroke="#a83a4a" stroke-width="2" fill="#ff7b8e"/>
-      </g>
-      <g class="mouth-open">
-        <ellipse cx="0" cy="24" rx="5" ry="4.5" fill="#5a1820" stroke="#2a2730" stroke-width="1.5"/>
-      </g>
-      <g class="mouth-wide">
-        <path d="M-11 20 Q0 32 11 20 Q0 25 -11 20 Z" fill="#5a1820" stroke="#2a2730" stroke-width="1.8"/>
-        <ellipse cx="0" cy="27" rx="2.5" ry="1.2" fill="#ff5a78" opacity=".7"/>
-      </g>
-    </g>`;
-
-  // Sonny
+  // Photo-based head: a circular-cropped image of the actual kid.
+  // Falls back to a tinted circle if the photo fails to load.
+  const cfg = {
+    margot: { ty: 50, r: 42 },
+    luca:   { ty: 50, r: 40 },
+    sonny:  { ty: 60, r: 50 },
+  }[kid];
+  const r = cfg.r;
   return `
-    <g class="head" transform="translate(100 60)">
-      <!-- chubby toddler head, very round -->
-      <ellipse cx="0" cy="4" rx="46" ry="50" fill="url(#g-skin)" stroke="#2a2730" stroke-width="2.5"/>
-      <!-- chubby cheek roundness -->
-      <ellipse cx="-32" cy="22" rx="10" ry="8" fill="url(#g-skin)" opacity=".85"/>
-      <ellipse cx="32"  cy="22" rx="10" ry="8" fill="url(#g-skin)" opacity=".85"/>
-      <!-- light blonde hair: short on sides, long fringe over forehead, down to top of ears -->
-      <path d="M-44 -8 Q-46 -44 -10 -50 Q24 -50 44 -20 Q46 -6 38 0 Q22 -16 0 -16 Q-22 -16 -38 0 Q-46 -6 -44 -8 Z"
-            fill="url(#g-hair-sonny)" stroke="#a07c4a" stroke-width="1.2"/>
-      <!-- prominent forehead fringe (the standout feature) -->
-      <path d="M-40 -14 Q-22 -28 -4 -22 Q12 -30 30 -22 Q40 -10 32 -2 Q14 -16 -2 -10 Q-18 -18 -32 -8 Q-40 -8 -40 -14 Z"
-            fill="url(#g-hair-sonny)" stroke="#a07c4a" stroke-width="1"/>
-      <!-- fringe wisp streaks -->
-      <path d="M-30 -16 Q-10 -22 6 -16" stroke="#b58c4a" stroke-width="1" fill="none" opacity=".6"/>
-      <path d="M-12 -10 Q4 -16 24 -8" stroke="#b58c4a" stroke-width="1" fill="none" opacity=".6"/>
-      <!-- light eyebrows -->
-      <path d="M-22 -2 Q-14 -6 -6 -2" stroke="#a87b3a" stroke-width="2" fill="none" stroke-linecap="round" opacity=".75"/>
-      <path d="M22 -2 Q14 -6 6 -2"   stroke="#a87b3a" stroke-width="2" fill="none" stroke-linecap="round" opacity=".75"/>
-      <!-- eyes -->
-      <g class="eyes-normal">
-        <ellipse cx="-14" cy="6" rx="6.5" ry="7" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <ellipse cx="14"  cy="6" rx="6.5" ry="7" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <circle cx="-13" cy="7" r="4" fill="#2c6fb0"/>
-        <circle cx="15"  cy="7" r="4" fill="#2c6fb0"/>
-        <circle cx="-13" cy="7" r="2" fill="#0d2842"/>
-        <circle cx="15"  cy="7" r="2" fill="#0d2842"/>
-        <circle cx="-11.6" cy="5.4" r="1.2" fill="#fff"/>
-        <circle cx="16.4"  cy="5.4" r="1.2" fill="#fff"/>
-      </g>
-      <g class="eyes-closed">
-        <path d="M-21 4 Q-14 -2 -7 4"  stroke="#7c5a30" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-        <path d="M7 4 Q14 -2 21 4"     stroke="#7c5a30" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-      </g>
-      <g class="eyes-wide">
-        <circle cx="-14" cy="6" r="9" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <circle cx="14"  cy="6" r="9" fill="#fff" stroke="#2a2730" stroke-width="1.5"/>
-        <circle cx="-13" cy="7" r="4.5" fill="#2c6fb0"/>
-        <circle cx="15"  cy="7" r="4.5" fill="#2c6fb0"/>
-        <circle cx="-13" cy="7" r="2.2" fill="#0d2842"/>
-        <circle cx="15"  cy="7" r="2.2" fill="#0d2842"/>
-      </g>
-      <ellipse cx="-26" cy="22" rx="7" ry="4" fill="#ff9bb3" opacity=".75"/>
-      <ellipse cx="26"  cy="22" rx="7" ry="4" fill="#ff9bb3" opacity=".75"/>
-      <path d="M-2 12 Q0 22 4 22" stroke="#c47e58" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-      <g class="mouth-closed">
-        <path d="M-9 32 Q0 40 9 32" stroke="#a83a4a" stroke-width="2" fill="#ff7b8e"/>
-      </g>
-      <g class="mouth-open">
-        <ellipse cx="0" cy="34" rx="6.5" ry="6" fill="#5a1820" stroke="#2a2730" stroke-width="1.5"/>
-      </g>
-      <g class="mouth-wide">
-        <path d="M-13 30 Q0 44 13 30 Q0 36 -13 30 Z" fill="#5a1820" stroke="#2a2730" stroke-width="1.8"/>
-        <ellipse cx="0" cy="38" rx="3.5" ry="1.6" fill="#ff5a78" opacity=".7"/>
-      </g>
+    <g class="head" transform="translate(100 ${cfg.ty})">
+      <circle cx="0" cy="0" r="${r + 2}" fill="#fbd0b1"/>
+      <image href="assets/faces/${kid}.jpg"
+             x="${-r}" y="${-r}" width="${r * 2}" height="${r * 2}"
+             clip-path="url(#clip-circle)"
+             preserveAspectRatio="xMidYMid slice"/>
+      <circle cx="0" cy="0" r="${r}" fill="none" stroke="#2a2730" stroke-width="2.5"/>
     </g>`;
 }
 
